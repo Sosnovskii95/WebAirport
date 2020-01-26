@@ -14,25 +14,11 @@ namespace WebAirport.Controllers
 
         public ActionResult Index()
         {
-           /* Airplane airplane = new Airplane { Model = "1" };
-            airportContext.Airplanes.Add(airplane);
-            airportContext.SaveChanges();*/
-
-
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Position()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

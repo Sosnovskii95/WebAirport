@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Новая должность";
+}
+
+<h2>Данные для добавления новой должности</h2>
+<form method="post">
+    <table>
+        <tr>
+            <td>
+                Название должности
+            </td>
+            <td>
+                <input type="text" name="JobTitle">
+            </td>
+            </tr>
+        <tr>
+            <td>
+                Оклад
+            </td>
+            <td>
+                <input type="text" name="Salary" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Обязанности
+            </td>
+            <td>
+                <input type="text" name="Responsibilities" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Требования
+            </td>
+            <td>
+                <input type="text" name="Requirements" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Добавить"/>
+            </td>
+        </tr>
+    </table>
+</form>

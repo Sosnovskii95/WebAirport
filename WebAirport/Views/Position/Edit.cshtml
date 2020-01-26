@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Редактирование должности";
+}
+
+<h2>Edit</h2>
+
+<form method="post">
+    <input type="text" hidden name="PositionId" value="@ViewBag.Position.PositionId" />
+    <table>
+        <tr>
+            <td>Название</td>
+            <td><input type="text" name="JobTitle" value="@ViewBag.Position.JobTitle" /></td>
+        </tr>
+        <tr>
+            <td>Оклад</td>
+            <td><input type="text" name="Salary" value="@ViewBag.Position.Salary" /></td>
+        </tr>
+        <tr>
+            <td>Обязанности</td>
+            <td><input type="text" name="Responsibilities" value="@ViewBag.Position.Responsibilities" /></td>
+        </tr>
+        <tr>
+            <td>Требования</td>
+            <td><input type="text" name="Requirements" value="@ViewBag.Position.Requirements" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Сохранить изменения" />
+            </td>
+        </tr>
+    </table>
+</form>
