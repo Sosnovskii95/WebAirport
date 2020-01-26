@@ -8,7 +8,7 @@ namespace WebAirport.Models
 {
     public class Ticket
     {
-        public int TicketId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(50)]

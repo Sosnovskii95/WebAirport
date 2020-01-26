@@ -8,7 +8,7 @@ namespace WebAirport.Models
 {
     public class JobAirplane
     {
-        public int JobAirplaneId { get; set; }
+        public int Id { get; set; }
 
         public int TypeAirplaneId { get; set; }
 

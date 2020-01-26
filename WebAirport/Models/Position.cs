@@ -9,7 +9,7 @@ namespace WebAirport.Models
 {
     public class Position
     {
-        public int PositionId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]

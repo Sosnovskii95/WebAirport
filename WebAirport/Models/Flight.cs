@@ -9,7 +9,7 @@ namespace WebAirport.Models
 {
     public class Flight
     {
-        public int FlightId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Column(TypeName = "date")]

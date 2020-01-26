@@ -36,9 +36,7 @@ namespace WebAirport.Controllers
         
         public ActionResult Edit(int id)
         {
-            ViewBag.Position = db.Positions.
-                Where(c => c.PositionId == id).
-                FirstOrDefault();
+            ViewBag.Position = db.Positions.Find(id);
 
             return View();
         }

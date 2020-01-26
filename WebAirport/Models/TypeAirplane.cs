@@ -8,7 +8,7 @@ namespace WebAirport.Models
 {
     public class TypeAirplane
     {
-        public int TypeAirplaneId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(100)]

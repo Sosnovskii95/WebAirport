@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Список сотрудников";
+}
+
+<div>
+    <table>
+        <tr>
+            <td><p>Фамилия Имя</p></td>
+            <td><p>Отчество</p></td>
+            <td><p>Пол</p></td>
+            <td><p>Адресс</p></td>
+            <td><p>Телефон</p></td>
+            <td><p>Пасспорт</p></td>
+            <td><p>Должность</p></td>
+        </tr>
+        @foreach(var s in ViewBag.Staffs)
+        {
+            <tr>
+                <td><p>@s.FirstNameStaff</p></td>
+                <td><p>@s.LastNameStaff</p></td>
+                <td><p>@s.Gender</p></td>
+                <td><p>@s.Address</p></td>
+                <td><p>@s.Telephone</p></td>
+                <td><p>@s.Passport</p></td>
+                <td><p>@s.Position.JobTitle</p></td>
+                <td><a href="/Staff/Edit/@s.Id">Редактировать</a></td>
+            </tr>
+        }
+    </table>
+</div>
+

@@ -44,6 +44,9 @@ namespace WebAirport.Data
             modelBuilder.Entity<Flight>().
                 HasMany(c => c.Tickets).
                 WithRequired(o => o.Flight);*/
+            modelBuilder.Entity<Position>().
+                HasMany(o => o.Staffs).
+                WithRequired(p => p.Position);
 
             base.OnModelCreating(modelBuilder);
         }
