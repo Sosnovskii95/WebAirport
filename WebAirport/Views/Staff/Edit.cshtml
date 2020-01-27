@@ -9,7 +9,7 @@
         <table>
             @foreach (var sta in ViewBag.Staff)
             {
-            <input type="text" hidden value="@sta.Id" />
+            <input type="text" hidden name="Id" value="@sta.Id" />
             <tr>
                 <td>Фамилия Имя</td>
                 <td><input type="text" name="FirstNameStaff" value="@sta.FirstNameStaff"/></td>
@@ -54,12 +54,28 @@
                 <td><input type="text" name="Passport" value="@sta.Passport"/></td>
             </tr>
             <tr>
-                <td>Должности</td>
+                <td>Должность</td>
                 <td>
-
+                    <label>@sta.Position.JobTitle</label>
+                    Замена должности
                     <select name="PositionId">
-                            <option value="@sta.Position.Id">@sta.Position.JobTitle</option>
+                        @foreach (var pos in ViewBag.Positions)
+                        {
+                            if (pos.Id == sta.PositionId)
+                            {
+                                <option selected="selected" value="@pos.Id">@pos.JobTitle</option>
+                            }
+                            else
+                            {
+                                <option value="@pos.Id">@pos.JobTitle</option>
+                            }
+                        }
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Сохранить изменения" />
                 </td>
             </tr>
             }

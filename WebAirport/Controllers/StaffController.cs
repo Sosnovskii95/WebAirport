@@ -44,13 +44,22 @@ namespace WebAirport.Controllers
 
         public ActionResult Edit(int id)
         {
-            db.Database.Log = (s => System.Diagnostics.Debug.WriteLine(s));
-
             ViewBag.Staff = db.Staffs.
                 Where(c => c.Id == id).
                 Include(p => p.Position).ToList();
 
+            ViewBag.Positions = db.Positions.ToList();
+
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Staff staff)
+        {
+            db.Entry(staff).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("ListStaff");
         }
     }
 }

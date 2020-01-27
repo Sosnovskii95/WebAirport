@@ -21,25 +21,31 @@ namespace WebAirport.Models
         [Required]
         public double CarryingCapacity { get; set; }
 
-        public int JobAirplaneId { get; set; }
+        public int TypeAirplaneId { get; set; }
 
         [Required]
         [MaxLength(50)]
         public string Specifications { get; set; }
 
         [Column(TypeName="date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString ="{yyyy-MM-dd}", ApplyFormatInEditMode =true)]
         [Required]
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         [Required]
         public double FlyingHours { get; set; }
 
         [Column(TypeName = "date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required]
-        public DateTime LastRepairDate { get; set; }
+        public DateTime? LastRepairDate { get; set; }
 
         public ICollection<Flight> Flights { get; set; }
 
-        public JobAirplane JobAirplane { get; set; }
+        public TypeAirplane TypeAirplane { get; set; }
+
+        public IEnumerable<Airplane> Airplanes { get; set; }
     }
 }

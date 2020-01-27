@@ -17,7 +17,5 @@ namespace WebAirport.Models
         public Staff Staff { get; set; }
 
         public TypeAirplane TypeAirplane { get; set; }
-
-        public ICollection<Airplane> Airplanes { get; set; }
     }
 }

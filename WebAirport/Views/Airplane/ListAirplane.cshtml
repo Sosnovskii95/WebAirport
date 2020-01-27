@@ -1,0 +1,32 @@
+﻿@model IEnumerable<WebAirport.Models.Airplane>
+@{
+    ViewBag.Title = "Парк самолетов";
+}
+
+<h2>Список самолетов</h2>
+
+<table>
+    <tr>
+        <td>Модель</td>
+        <td>Вместимость пассажиров</td>
+        <td>Грузоподъемность</td>
+        <td>Спецификация</td>
+        <td>Налетано часов</td>
+        <td>Дата создания</td>
+        <td>Дата последнего ремонта</td>
+        <td>Тип самолета</td>
+    </tr>
+    @foreach(var air in Model)
+    {
+        <tr>
+            <td>@air.Model</td>
+            <td>@air.PessengerCapacity</td>
+            <td>@air.CarryingCapacity</td>
+            <td>@air.Specifications</td>
+            <td>@air.FlyingHours</td>
+            <td>@String.Format("{0:dd.MM.yyyy}", air.ReleaseDate)</td>
+            <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
+            <td>@air.TypeAirplane.NameType</td>
+        </tr>
+    }
+</table>

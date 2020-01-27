@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Типы самолетов";
+}
+
+<h2>Список типов самолетов</h2>
+
+<div>
+    <table>
+        <tr>
+            <td>Название типа</td>
+            <td>Назначение</td>
+            <td>Ограничения</td>
+        </tr>
+        @foreach(var typeA in ViewBag.TypeAirplanes)
+        {
+            <tr>
+                <td>@typeA.NameType</td>
+                <td>@typeA.Appointment</td>
+                <td>@typeA.Limitation</td>
+                <td><a href="/TypeAirplane/Edit/@typeA.Id">Редактировать</a></td>
+            </tr>
+        }
+    </table>
+</div>
+

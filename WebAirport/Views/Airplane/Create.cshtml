@@ -1,0 +1,80 @@
+﻿@model WebAirport.Models.Airplane
+
+@{
+    ViewBag.Title = "Новый самолет";
+}
+
+<h2>Добавление самолета</h2>
+
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>Модель самолета</td>
+                <td>
+                    @Html.EditorFor(air => air.Model)
+                </td>
+            </tr>
+            <tr>
+                <td>Вместимость пассажиров</td>
+                <td>
+                    @Html.EditorFor(air => air.PessengerCapacity)
+                </td>
+            </tr>
+            <tr>
+                <td>Вместимость грузовая</td>
+                <td>
+                    @Html.EditorFor(air => air.CarryingCapacity)
+                </td>
+            </tr>
+            <tr>
+                <td>Спецификация</td>
+                <td>
+                    @Html.EditorFor(air => air.Specifications)
+                </td>
+            </tr>
+            <tr>
+                <td>Количество часов налета</td>
+                <td>
+                    @Html.EditorFor(air => air.FlyingHours)
+                </td>
+            </tr>
+            <tr>
+                <td>Дата сборки</td>
+                <td>
+                    @Html.EditorFor(date => date.ReleaseDate)
+                </td>
+            </tr>
+            <tr>
+                <td>Дата последнего ремонта</td>
+                <td>
+                    @Html.EditorFor(date => date.LastRepairDate)
+                </td>
+            </tr>
+            <tr>
+                <td>Тип самолета</td>
+                <td>
+                    @if (ViewBag.TypeAirplanes != null)
+                    {
+                        <select name="TypeAirplaneId">
+                            @foreach (var typeA in ViewBag.TypeAirplanes)
+                            {
+                                <option value="@typeA.Id">@typeA.NameType</option>
+                            }
+                        </select>
+                    }
+                    else
+                    {
+                        <p>Тип не задан</p>
+                        @*<a href="/TypeAirplane/Create">Добавить</a>*@
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Добавить" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

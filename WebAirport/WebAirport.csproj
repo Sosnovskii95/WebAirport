@@ -128,9 +128,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AirplaneController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TypeAirplaneController.cs" />
     <Compile Include="Data\AirportContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -185,6 +187,14 @@
     <Content Include="Views\Staff\Create.cshtml" />
     <Content Include="Views\Staff\ListStaff.cshtml" />
     <Content Include="Views\Staff\Edit.cshtml" />
+    <Content Include="Views\Home\Staff.cshtml" />
+    <Content Include="Views\TypeAirplane\Create.cshtml" />
+    <Content Include="Views\TypeAirplane\ListTypeAirplane.cshtml" />
+    <Content Include="Views\TypeAirplane\Edit.cshtml" />
+    <Content Include="Views\Airplane\Create.cshtml" />
+    <Content Include="Views\Home\TypeAirplane.cshtml" />
+    <Content Include="Views\Home\Airplane.cshtml" />
+    <Content Include="Views\Airplane\ListAirplane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

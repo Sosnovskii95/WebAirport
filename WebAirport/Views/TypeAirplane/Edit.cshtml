@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Редактирование";
+}
+
+<h2>Редактирование типа самолета</h2>
+
+<div>
+    <form method="post">
+        @{ var typeA = ViewBag.TypeAirplane; }
+        <input type="text" name="Id" value="@typeA.Id" hidden />
+        <table>
+            <tr>
+                <td>Название типа</td>
+                <td><input type="text" name="NameType" value="@typeA.NameType" /></td>
+            </tr>
+            <tr>
+                <td>Назначение</td>
+                <td><input type="text" name="Appointment" value="@typeA.Appointment"/></td>
+            </tr>
+            <tr>
+                <td>Ограничения</td>
+                <td><input type="text" name="Limitation" value="@typeA.Limitation"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Сохранить изменения" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
