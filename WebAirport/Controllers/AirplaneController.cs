@@ -45,12 +45,25 @@ namespace WebAirport.Controllers
                 Include(c => c.TypeAirplane).
                 ToList();
 
-            foreach(var a in Airplanes)
-            {
-                System.Diagnostics.Debug.WriteLine(a.ReleaseDate);
-            }
-
             return View(Airplanes);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var airplane = db.Airplanes.Find(id);
+
+            ViewBag.TypeAirplanes = db.TypeAirplanes.ToList();
+
+            return View(airplane);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Airplane airplane)
+        {
+            db.Entry(airplane).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("ListAirplane");
         }
     }
 }

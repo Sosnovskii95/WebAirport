@@ -27,6 +27,7 @@
             <td>@String.Format("{0:dd.MM.yyyy}", air.ReleaseDate)</td>
             <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
             <td>@air.TypeAirplane.NameType</td>
+            <td>@Html.ActionLink("Редактировать", "Edit", "Airplane", new { Id=air.Id }, null)</td>
         </tr>
     }
 </table>

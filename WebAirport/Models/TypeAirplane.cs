@@ -21,6 +21,6 @@ namespace WebAirport.Models
         [Required]
         public string Limitation { get; set; }
 
-        public ICollection<JobAirplane> JobAirplanes { get; set; }
+        public Airplane Airplane { get; set; }
     }
 }

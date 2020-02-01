@@ -9,6 +9,8 @@ namespace WebAirport.Models
 {
     public class Airplane
     {
+        [Key]
+        
         public int Id { get; set; }
 
         [Required]
@@ -29,7 +31,6 @@ namespace WebAirport.Models
 
         [Column(TypeName="date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString ="{yyyy-MM-dd}", ApplyFormatInEditMode =true)]
         [Required]
         public DateTime? ReleaseDate { get; set; }
 
@@ -38,13 +39,11 @@ namespace WebAirport.Models
 
         [Column(TypeName = "date")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required]
         public DateTime? LastRepairDate { get; set; }
 
-        public ICollection<Flight> Flights { get; set; }
-
-        public TypeAirplane TypeAirplane { get; set; }
+        public ICollection<JobAirplane> JobAirplane { get; set; }
+        public ICollection<TypeAirplane> TypeAirplane { get; set; }
 
         public IEnumerable<Airplane> Airplanes { get; set; }
     }

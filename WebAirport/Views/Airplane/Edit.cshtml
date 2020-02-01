@@ -1,0 +1,65 @@
+﻿@model WebAirport.Models.Airplane
+
+@{
+    ViewBag.Title = "Редактирование самолета";
+}
+
+<h2>Данные выбранного самолета</h2>
+
+<div>
+    <form method="post">
+        <table>
+                <tr>
+                    <td>@Html.HiddenFor(model => model.Id)</td>
+                </tr>
+                <tr>
+                    <td>Модель самолета</td>
+                    <td>@Html.EditorFor(model => model.Model)</td>
+                </tr>
+                <tr>
+                    <td>Вместимость пассажирова</td>
+                    <td>@Html.EditorFor(model => model.PessengerCapacity)</td>
+                </tr>
+                <tr>
+                    <td>Грузовая вместимость</td>
+                    <td>@Html.EditorFor(model => model.CarryingCapacity)</td>
+                </tr>
+                <tr>
+                    <td>Спецификация</td>
+                    <td>@Html.EditorFor(model => model.Specifications)</td>
+                </tr>
+                <tr>
+                    <td>Часов налета</td>
+                    <td>@Html.EditorFor(model => model.FlyingHours)</td>
+                </tr>
+                <tr>
+                    <td>Дата создания</td>
+                    <td><input type="date" name="ReleaseDate" value="@String.Format("{0:yyyy-MM-dd}", Model.ReleaseDate)" /></td>
+                </tr>
+                <tr>
+                    <td>Дата последнего ремонта</td>
+                    <td><input type="date" name="LastRepairDate" value="@String.Format("{0:yyyy-MM-dd}", Model.LastRepairDate)" /></td>
+                </tr>
+                <tr>
+                    <td>Типы самолетов</td>
+                    <td>
+                        <select name="TypeAirplaneId">
+                            @foreach (var type in ViewBag.TypeAirplanes)
+                            {
+                                if (Model.TypeAirplaneId == type.Id)
+                                {
+                                    <option value="@type.Id" selected="selected">@type.NameType</option>
+                                }
+                                else
+                                {
+                                    <option value="@type.Id">@type.NameType</option>
+                                }
+                            }
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        
+        <input type="submit" value="Сохранить изменения" />
+    </form>
+</div>

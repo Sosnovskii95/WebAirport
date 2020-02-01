@@ -1,0 +1,78 @@
+﻿@model WebAirport.Models.Flight
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Добавление рейса</h2>
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>Дата и время вылета</td>
+                <td>@Html.EditorFor(model => model.DateTimeFlight)</td>
+            </tr>
+            <tr>
+                <td>Пункт вылета</td>
+                <td>@Html.EditorFor(model => model.DeparturePoint)</td>
+            </tr>
+            <tr>
+                <td>Пункт назначения</td>
+                <td>@Html.EditorFor(model => model.Destination)</td>
+            </tr>
+            <tr>
+                <td>Время в полете</td>
+                <td>@Html.EditorFor(model => model.TimeInFlight)</td>
+            </tr>
+            <tr>
+                <td>Тип самолета</td>
+                <td>
+                    <select name="TypeAirplaneId" onchange="loadair(this.value)">
+                        <option value="0">Выбор типа</option>
+                            @foreach (var type in ViewBag.TypeAirplane)
+                            {
+                                <option value="@type.Id">@type.NameType</option>
+                            }
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Самолет</td>
+                <td id="result">
+                </td>
+            </tr>
+            <tr>
+                <td>Пилот</td>
+                <td>
+                    <select name="StaffId">
+                        @foreach(var staff in ViewBag.Staff)
+                        {
+                            <option value="@staff.Id">@staff.FirstNameStaff @staff.LastNameStaff</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </form>
+    </div>
+    
+
+    <script type="text/javascript">
+
+        function loadair(value) {
+            if (value != 0) {
+                $.post("/Flight/ListAirplaneByType",
+                    { id: value },
+                    function (data, statusCode) {
+                        if (statusCode == "success") {
+                            $("#result").html(data);
+                        }
+                    });
+            }
+            else {
+                $("#result").empty();
+            }
+        }
+    </script>
+
+    @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")

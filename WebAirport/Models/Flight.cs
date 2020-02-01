@@ -12,8 +12,7 @@ namespace WebAirport.Models
         public int Id { get; set; }
 
         [Required]
-        [Column(TypeName = "date")]
-        public DateTime DateFlight { get; set; }
+        public DateTime DateTimeFlight { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -22,12 +21,12 @@ namespace WebAirport.Models
         [Required]
         public double Destination { get; set; }
 
-        public int AirplaneId { get; set; }
+        public int JobAirplaneId { get; set; }
 
         [Required]
-        public double TimeFlight { get; set; }
+        public TimeSpan TimeInFlight { get; set; }
 
-        public Airplane Airplane { get; set; }
+        public JobAirplane JobAirplane { get; set; }
 
         public ICollection<Ticket> Tickets { get; set; }
     }
