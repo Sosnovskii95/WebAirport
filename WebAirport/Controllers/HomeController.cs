@@ -37,5 +37,10 @@ namespace WebAirport.Controllers
         {
             return View();
         }
+
+        public ActionResult Flight()
+        {
+            return View();
+        }
     }
 }

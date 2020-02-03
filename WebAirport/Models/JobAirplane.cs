@@ -10,7 +10,7 @@ namespace WebAirport.Models
     {
         public int Id { get; set; }
 
-        public int TypeAirplaneId { get; set; }
+        public int AirplaneId { get; set; }
 
         public int StaffId { get; set; }
 
@@ -19,5 +19,7 @@ namespace WebAirport.Models
         public Airplane Airplane { get; set; }
 
         public ICollection<Flight> Flight { get; set; }
+
+        public IEnumerable<JobAirplane> JobAirplanes { get; set; }
     }
 }

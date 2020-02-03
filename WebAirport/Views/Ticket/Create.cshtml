@@ -1,0 +1,68 @@
+﻿@model WebAirport.Models.Ticket
+@{
+    ViewBag.Title = "Добавить билет";
+}
+
+<h2>Добавить новый билет</h2>
+
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>Фамилия и Имя пассажира</td>
+                <td>@Html.EditorFor(model => model.FirstNamePassenger)</td>
+            </tr>
+            <tr>
+                <td>Отчество пассажира</td>
+                <td>@Html.EditorFor(model => model.LastNamePassenger)</td>
+            </tr>
+            <tr>
+                <td>Паспортные данные пассажира</td>
+                <td>@Html.EditorFor(model => model.Passport)</td>
+            </tr>
+            <tr>
+                <td>Должность пассажира</td>
+                <td>@Html.EditorFor(model => model.PositionPassenger)</td>
+            </tr>
+            <tr>
+                <td>Место в самолете</td>
+                <td>@Html.EditorFor(model => model.Seat)</td>
+            </tr>
+            <tr>
+                <td>Стоимость перелета</td>
+                <td>@Html.EditorFor(model => model.Price)</td>
+            </tr>
+            <tr>
+                <td>Выбранный рейс</td>
+                <td>
+                    <select name="FlightId" onchange="getSelectFlight(this.value)">
+                        <option value="0">Выбор рейса</option>
+                        @foreach (var flight in ViewBag.Flights)
+                        {
+                            <option value="@flight.Id">@flight.DeparturePoint - @flight.Destination</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Добавить билет" />
+    </form>
+</div>
+
+<div id="selectFlight"></div>
+
+@Scripts.Render("~/scripts/jquery-3.4.1.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+<script type="text/javascript">
+    function getSelectFlight(idFlight) {
+        if (idFlight > 0) {
+            $.post("/Ticket/SelectedFlight", { idFlight: idFlight })
+                .done(function (data) { $("#selectFlight").html(data); })
+                .fail(function () { $("#selectFlight").empty(); });
+        }
+        else {
+            $("#selectFlight").empty();
+        }
+    }
+</script>

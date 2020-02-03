@@ -133,6 +133,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\StaffController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TypeAirplaneController.cs" />
     <Compile Include="Data\AirportContext.cs" />
     <Compile Include="Data\DbInit.cs" />
@@ -202,6 +203,16 @@
     <Content Include="Views\Airplane\Edit.cshtml" />
     <Content Include="Views\Flight\Create.cshtml" />
     <Content Include="Views\Flight\ListAirplaneByType.cshtml" />
+    <Content Include="Views\Flight\ListFlight.cshtml" />
+    <Content Include="Views\Flight\Edit.cshtml" />
+    <Content Include="Views\Flight\ListTypeSelected.cshtml" />
+    <Content Include="Views\Flight\ListAirplaneSelected.cshtml" />
+    <Content Include="Views\Flight\ListStaffSelected.cshtml" />
+    <Content Include="Views\Home\Flight.cshtml" />
+    <Content Include="Views\Ticket\Create.cshtml" />
+    <Content Include="Views\Ticket\SelectedFlight.cshtml" />
+    <Content Include="Views\Ticket\ListTicket.cshtml" />
+    <Content Include="Views\Ticket\ListTickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

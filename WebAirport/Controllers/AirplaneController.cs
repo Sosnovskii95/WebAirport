@@ -15,7 +15,7 @@ namespace WebAirport.Controllers
         // GET: Airplane
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Airplane", "Home");
         }
 
         public ActionResult Create()
@@ -42,7 +42,7 @@ namespace WebAirport.Controllers
         public ActionResult ListAirplane()
         {
             var Airplanes = db.Airplanes.
-                Include(c => c.TypeAirplane).
+                Include(t => t.TypeAirplane).
                 ToList();
 
             return View(Airplanes);

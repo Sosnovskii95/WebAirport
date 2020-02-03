@@ -1,0 +1,31 @@
+﻿@model IEnumerable<WebAirport.Models.Flight>
+@{
+    ViewBag.Title = "ListFlight";
+}
+<div>
+    @Html.ActionLink("Добавить новый рейс", "/Create")
+</div>
+
+<h2>Список рейсов</h2>
+
+<table>
+    <tr>
+        <td>Номер рейса</td>
+        <td>Дата и время рейса</td>
+        <td>Пункт вылета</td>
+        <td>Пункт назначения</td>
+        <td>Время полета</td>
+    </tr>
+    @foreach(var flight in Model)
+    {
+        <tr>
+            <td>@flight.Id</td>
+            <td>@flight.DateTimeFlight</td>
+            <td>@flight.DeparturePoint</td>
+            <td>@flight.Destination</td>
+            <td>@flight.TimeInFlight</td>
+            <td>@Html.ActionLink("Редактировать", "Edit", new { Id = flight.Id })</td>
+        </tr>
+    }
+</table>
+

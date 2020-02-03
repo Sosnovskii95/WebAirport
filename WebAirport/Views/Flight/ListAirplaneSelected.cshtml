@@ -1,0 +1,16 @@
+﻿@model IEnumerable<WebAirport.Models.Airplane>
+
+<select name="AirplaneId">
+    <option value="0">Выбор самолета</option>
+    @foreach (var air in Model)
+    {
+        if (air.Id == ViewBag.idSelected)
+        {
+            <option value="@air.Id" selected="selected">@air.Model</option>
+        }
+        else
+        {
+            <option value="@air.Id">@air.Model</option>
+        }
+    }
+</select>

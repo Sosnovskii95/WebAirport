@@ -43,7 +43,7 @@ namespace WebAirport.Models
         public DateTime? LastRepairDate { get; set; }
 
         public ICollection<JobAirplane> JobAirplane { get; set; }
-        public ICollection<TypeAirplane> TypeAirplane { get; set; }
+        public TypeAirplane TypeAirplane { get; set; }
 
         public IEnumerable<Airplane> Airplanes { get; set; }
     }

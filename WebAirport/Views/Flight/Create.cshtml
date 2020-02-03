@@ -3,13 +3,17 @@
     ViewBag.Title = "Create";
 }
 
+<div>
+    @Html.ActionLink("Список рейсов", "/ListFlight")
+</div>
+
 <h2>Добавление рейса</h2>
 <div>
     <form method="post">
         <table>
             <tr>
                 <td>Дата и время вылета</td>
-                <td>@Html.EditorFor(model => model.DateTimeFlight)</td>
+                <td><input type="datetime-local" name="DateTimeFlight"/></td>
             </tr>
             <tr>
                 <td>Пункт вылета</td>
@@ -21,7 +25,7 @@
             </tr>
             <tr>
                 <td>Время в полете</td>
-                <td>@Html.EditorFor(model => model.TimeInFlight)</td>
+                <td><input type="time" name="TimeInFlight"/></td>
             </tr>
             <tr>
                 <td>Тип самолета</td>
@@ -52,6 +56,7 @@
                 </td>
             </tr>
         </table>
+        <input type="submit" value="Добавить" />
     </form>
     </div>
     
@@ -60,13 +65,9 @@
 
         function loadair(value) {
             if (value != 0) {
-                $.post("/Flight/ListAirplaneByType",
-                    { id: value },
-                    function (data, statusCode) {
-                        if (statusCode == "success") {
-                            $("#result").html(data);
-                        }
-                    });
+                $.post("/Flight/ListAirplaneByType", { id: value })
+                    .done(function (data) { $("#result").html(data); })
+                    .fail(function () { $("#result").empty(); });
             }
             else {
                 $("#result").empty();

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebAirport.Models.Ticket>
+
+<h2>Список билетов по выбранному рейсу</h2>
+<table>
+    <tr>
+        <td>Фамилия и Имя</td>
+        <td>Отчество</td>
+        <td>Паспортные данные</td>
+        <td>Должность</td>
+        <td>Место в самолете</td>
+        <td>Стоимость перелета</td>
+    </tr>
+    @foreach(var ticket in Model)
+    {
+        <tr>
+            <td>@ticket.FirstNamePassenger</td>
+            <td>@ticket.LastNamePassenger</td>
+            <td>@ticket.Passport</td>
+            <td>@ticket.PositionPassenger</td>
+            <td>@ticket.Seat</td>
+            <td>@ticket.Price</td>
+        </tr>
+    }
+</table>

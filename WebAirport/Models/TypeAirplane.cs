@@ -21,6 +21,8 @@ namespace WebAirport.Models
         [Required]
         public string Limitation { get; set; }
 
-        public Airplane Airplane { get; set; }
+        public ICollection<Airplane> Airplane { get; set; }
+
+        public IEnumerable<TypeAirplane> TypeAirplanes { get; set; }
     }
 }

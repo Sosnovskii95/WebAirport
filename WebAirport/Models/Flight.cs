@@ -19,7 +19,7 @@ namespace WebAirport.Models
         public string DeparturePoint { get; set; }
 
         [Required]
-        public double Destination { get; set; }
+        public string Destination { get; set; }
 
         public int JobAirplaneId { get; set; }
 
@@ -29,5 +29,7 @@ namespace WebAirport.Models
         public JobAirplane JobAirplane { get; set; }
 
         public ICollection<Ticket> Tickets { get; set; }
+
+        public IEnumerable<Flight> flights { get; set; }
     }
 }
