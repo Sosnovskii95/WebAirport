@@ -3,9 +3,9 @@
     ViewBag.Title = "Самолеты";
 }
 
-<h2>Самолеты</h2>
+<h2>Управление самолетами</h2>
 <div>
-    <a href="/Airplane/Create">Добавить новый самолет</a>
-    <a href="/Airplane/ListAirplane">Список самолетов</a>
+    @Html.ActionLink("Добавить самолет", "/Create", "Airplane")
+    @Html.ActionLink("Список самолетов", "/Create", "Airplane")
 </div>
 

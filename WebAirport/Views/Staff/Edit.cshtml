@@ -1,9 +1,13 @@
 ﻿
 @{
-    ViewBag.Title = "Редактирование данных сотрудника";
+    ViewBag.Title = "Редактирование сотрудника";
 }
+<div>
+    @Html.ActionLink("Добавить сотрудника", "/Create")
+    @Html.ActionLink("Список сотрудников", "/ListStaff")
+</div>
 
-    <h2>Редактирование данных сотрудника</h2>
+<h2>Редактирование сотрудника</h2>
 <div>
     <form method="post">
         <table>

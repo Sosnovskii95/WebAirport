@@ -2,6 +2,10 @@
 @{
     ViewBag.Title = "Новая должность";
 }
+<div>
+    @Html.ActionLink("Добавить должность","/Create")
+    @Html.ActionLink("Список должностей", "/ListPosition")
+</div>
 
 <h2>Данные для добавления новой должности</h2>
 <form method="post">
