@@ -14,7 +14,7 @@ namespace WebAirport.Controllers
 
         public ActionResult Index()
         {
-            DbInit.Initialize(airportContext);
+            //DbInit.Initialize(airportContext);
             return View();
         }
 

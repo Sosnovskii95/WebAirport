@@ -1,0 +1,72 @@
+﻿@model IEnumerable<WebAirport.Models.Staff>
+
+@{
+    ViewBag.Title = "Список сотрудников";
+}
+
+<h2>Список связанных сотрудников с выбранной должностью</h2>
+<div>
+    @*<form>*@
+        <p>Текущая выбранная должность: </p>
+        <p>@ViewBag.CurrentPosition.JobTitle</p>
+        <p>Заменить на должность: </p>
+        <select id="NewPosId">
+            @foreach (var pos in ViewBag.ListPosition)
+            {
+                if (pos.Id != ViewBag.CurrentPosition.Id)
+                {
+                    <option value="@pos.Id">@pos.JobTitle</option>
+                }
+                else
+                {
+                    <option value="@pos.Id" selected="selected">@pos.JobTitle</option>
+                }
+            }
+        </select>
+
+        <input type="submit" onclick="modifyStaff()" />
+
+        <div>
+            <table>
+                <tr>
+                    <td>Перенос</td>
+                    <td>Фамилия Имя</td>
+                    <td>Отчество</td>
+                    <td>Пол</td>
+                </tr>
+                @foreach (var pos in Model)
+                {
+                    <tr>
+                        <td><input type="checkbox" name="Check" value="@pos.Id" /></td>
+                        <td>@pos.FirstNameStaff</td>
+                        <td>@pos.LastNameStaff</td>
+                        <td>@pos.Gender</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    @*</form>*@
+</div>
+
+<script type="text/javascript">
+    function modifyStaff() {
+        var newPosId = document.getElementById("NewPosId").value;
+        alert(newPosId);
+        var Check = document.getElementsByName('Check');
+        var arrCheck = new Array();
+        Check.forEach((check) => {
+            if (check.checked) {
+                arrCheck.push(check.value);
+            }
+        });
+
+        $.post("/Position/Delete", {
+            arrStaff: arrCheck,
+            newIdPos: newPosId
+        })
+            .done(function () {
+                $.get("/Position/Delete", { id: @ViewBag.CurrentPosition.Id})
+                    .done(function () { location.reload() });
+            });
+    }
+</script>

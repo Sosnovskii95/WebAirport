@@ -49,5 +49,44 @@ namespace WebAirport.Controllers
             return RedirectToAction("ListPosition");
         }
 
+        public ActionResult Delete(int id)
+        {
+            var Staffs = db.Staffs.
+                        Where(p => p.PositionId == id).
+                        ToList();
+
+            if(Staffs.Count == 0)
+            {
+                var position = db.Positions.Find(id);
+
+                if(position != null)
+                {
+                    db.Positions.Remove(position);
+                    db.SaveChanges();
+                }               
+                return RedirectToAction("ListPosition");
+            }
+
+            ViewBag.CurrentPosition = db.Positions.Find(id);
+            ViewBag.ListPosition = db.Positions.ToList();
+
+            return View(Staffs);
+        }
+
+        [HttpPost]
+        public void Delete(int [] arrStaff, int newIdPos)
+        {
+            if (arrStaff.Length > 0)
+            {
+                for (int i = 0; i < arrStaff.Length; i++)
+                {
+                    var staff = db.Staffs.Find(arrStaff[i]);
+                    staff.PositionId = newIdPos;
+
+                    db.Entry(staff).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+            }
+        }
     }
 }
