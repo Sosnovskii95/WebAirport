@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebAirport.Models;
 using WebAirport.Data;
 using System.Data.Entity;
+using PagedList;
 
 namespace WebAirport.Controllers
 {
@@ -13,9 +14,13 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
 
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View();
+            var listStaff = db.Staffs.
+                Include(s => s.Position).ToList();
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+            return View(listStaff.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()

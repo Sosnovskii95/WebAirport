@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using WebAirport.Data;
 using WebAirport.Models;
 using System.Data.Entity;
+using PagedList;
 
 namespace WebAirport.Controllers
 {
@@ -14,9 +15,12 @@ namespace WebAirport.Controllers
         private AirportContext db = new AirportContext();
 
         // GET: TypeAirplane
-        public ActionResult Index()
+        public ActionResult Index(int? page)
         {
-            return View();
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+            var listTypeAirplane = db.TypeAirplanes.ToList();
+            return View(listTypeAirplane.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -30,15 +34,15 @@ namespace WebAirport.Controllers
             db.TypeAirplanes.Add(typeAirplane);
             db.SaveChanges();
 
-            return RedirectToAction("ListTypeAirplane");
+            return RedirectToAction("Index");
         }
 
-        public ActionResult ListTypeAirplane()
+        /*public ActionResult ListTypeAirplane()
         {
             ViewBag.TypeAirplanes = db.TypeAirplanes.ToList();
 
             return View();
-        }
+        }*/
 
         public ActionResult Edit(int id)
         {
@@ -53,7 +57,7 @@ namespace WebAirport.Controllers
             db.Entry(typeAirplane).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("ListTypeAirplane");
+            return RedirectToAction("Index");
         }
     }
 }

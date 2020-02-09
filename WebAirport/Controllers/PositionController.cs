@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,6 +13,14 @@ namespace WebAirport.Controllers
     public class PositionController : Controller
     {
         private AirportContext db = new AirportContext();
+
+        public ActionResult Index(int? page)
+        {
+            var listPosition = db.Positions.ToList();
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+            return View(listPosition.ToPagedList(pageNumber, pageSize));
+        }
 
         public ActionResult Create()
         {
@@ -27,11 +36,11 @@ namespace WebAirport.Controllers
             return RedirectToAction("Position", "Home");
         }
 
-        public ActionResult ListPosition()
+        /*public ActionResult ListPosition()
         {
             ViewBag.Positions = db.Positions.ToList();
             return View();
-        }
+        }*/
         
         
         public ActionResult Edit(int id)
@@ -46,7 +55,7 @@ namespace WebAirport.Controllers
         {
             db.Entry(position).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("ListPosition");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int id)
@@ -64,7 +73,7 @@ namespace WebAirport.Controllers
                     db.Positions.Remove(position);
                     db.SaveChanges();
                 }               
-                return RedirectToAction("ListPosition");
+                return RedirectToAction("Index");
             }
 
             ViewBag.CurrentPosition = db.Positions.Find(id);

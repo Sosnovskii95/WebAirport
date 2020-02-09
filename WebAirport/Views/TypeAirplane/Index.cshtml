@@ -1,4 +1,5 @@
-﻿
+﻿@model PagedList.IPagedList<WebAirport.Models.TypeAirplane>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Типы самолетов";
 }
@@ -12,7 +13,7 @@
             <td>Назначение</td>
             <td>Ограничения</td>
         </tr>
-        @foreach(var typeA in ViewBag.TypeAirplanes)
+        @foreach (var typeA in Model)
         {
             <tr>
                 <td>@typeA.NameType</td>
@@ -23,4 +24,7 @@
         }
     </table>
 </div>
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

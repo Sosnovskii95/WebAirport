@@ -18,26 +18,6 @@ namespace WebAirport.Controllers
             return View();
         }
 
-        public ActionResult Position()
-        {
-            return View();
-        }
-
-        public ActionResult Staff()
-        {
-            return View();
-        }
-
-        public ActionResult TypeAirplane()
-        {
-            return View();
-        }
-
-        public ActionResult Airplane()
-        {
-            return View();
-        }
-
         public ActionResult Flight()
         {
             return View();

@@ -51,9 +51,9 @@
 <script type="text/javascript">
     function modifyStaff() {
         var newPosId = document.getElementById("NewPosId").value;
-        alert(newPosId);
         var Check = document.getElementsByName('Check');
         var arrCheck = new Array();
+
         Check.forEach((check) => {
             if (check.checked) {
                 arrCheck.push(check.value);

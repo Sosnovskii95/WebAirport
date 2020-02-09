@@ -1,17 +1,18 @@
-﻿
-@{
-    ViewBag.Title = "Список должностей";
-}
+﻿@model PagedList.IPagedList<WebAirport.Models.Position>
+@using PagedList.Mvc;
 
-<div>
-    @Html.ActionLink("Добавить должность", "/Create")
-</div>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Управление должностями</h2>
+@Html.ActionLink("Добавить должность", "Create")
 
 <h2>Список должностей</h2>
 
+
 <table>
     <tr>
-       <td>
+        <td>
             <p>
                 Название
             </p>
@@ -32,7 +33,7 @@
             </p>
         </td>
     </tr>
-    @foreach (var p in ViewBag.Positions)
+    @foreach (var p in Model)
     {
         <tr>
             <td><p>@p.JobTitle</p></td>
@@ -40,7 +41,11 @@
             <td><p>@p.Responsibilities</p></td>
             <td><p>@p.Requirements</p></td>
             <td><a href="/Position/Edit/@p.Id">Редактировать</a></td>
+            <td><a href="/Position/Delete/@p.Id">Удалить</a></td>
         </tr>
     }
 </table>
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

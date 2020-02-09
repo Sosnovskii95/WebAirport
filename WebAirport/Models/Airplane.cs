@@ -35,7 +35,7 @@ namespace WebAirport.Models
         public DateTime? ReleaseDate { get; set; }
 
         [Required]
-        public double FlyingHours { get; set; }
+        public int FlyingHours { get; set; }
 
         [Column(TypeName = "date")]
         [DataType(DataType.Date)]
