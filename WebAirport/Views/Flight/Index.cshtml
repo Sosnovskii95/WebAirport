@@ -1,9 +1,12 @@
-﻿@model IEnumerable<WebAirport.Models.Flight>
+﻿@model PagedList.IPagedList<WebAirport.Models.Flight>
+@using PagedList.Mvc;
+
 @{
-    ViewBag.Title = "ListFlight";
+    ViewBag.Title = "Список рейсов";
 }
+
 <div>
-    @Html.ActionLink("Добавить новый рейс", "/Create")
+    @Html.ActionLink("Добавить новый рейс", "Create")
 </div>
 
 <h2>Список рейсов</h2>
@@ -16,7 +19,7 @@
         <td>Пункт назначения</td>
         <td>Время полета</td>
     </tr>
-    @foreach(var flight in Model)
+    @foreach (var flight in Model)
     {
         <tr>
             <td>@flight.Id</td>
@@ -29,3 +32,7 @@
     }
 </table>
 
+<br />
+Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

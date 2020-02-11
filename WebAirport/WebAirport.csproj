@@ -202,23 +202,19 @@
     <Content Include="Views\Airplane\Edit.cshtml" />
     <Content Include="Views\Flight\Create.cshtml" />
     <Content Include="Views\Flight\ListAirplaneByType.cshtml" />
-    <Content Include="Views\Flight\ListFlight.cshtml" />
     <Content Include="Views\Flight\Edit.cshtml" />
     <Content Include="Views\Flight\ListTypeSelected.cshtml" />
     <Content Include="Views\Flight\ListAirplaneSelected.cshtml" />
     <Content Include="Views\Flight\ListStaffSelected.cshtml" />
-    <Content Include="Views\Home\Flight.cshtml" />
     <Content Include="Views\Ticket\Create.cshtml" />
     <Content Include="Views\Ticket\SelectedFlight.cshtml" />
-    <Content Include="Views\Ticket\ListTicket.cshtml" />
-    <Content Include="Views\Ticket\ListTickets.cshtml" />
-    <Content Include="Views\Home\Ticket.cshtml" />
     <Content Include="Views\Position\Delete.cshtml" />
     <Content Include="Views\Position\Index.cshtml" />
     <Content Include="Views\Staff\Index.cshtml" />
     <Content Include="Views\TypeAirplane\Index.cshtml" />
     <Content Include="Views\Airplane\Index.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
+    <Content Include="Views\Flight\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

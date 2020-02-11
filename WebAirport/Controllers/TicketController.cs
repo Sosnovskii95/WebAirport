@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebAirport.Data;
 using WebAirport.Models;
+using PagedList;
 
 namespace WebAirport.Controllers
 {
@@ -12,9 +13,14 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
         // GET: Ticket
-        public ActionResult Index()
+        public ActionResult Index(int ? page)
         {
-            return View();
+            var listTicket = db.Tickets.ToList();
+            int pageSize = 30;
+            int pageNumber = (page ?? 1);
+
+
+            return View(listTicket.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -31,21 +37,6 @@ namespace WebAirport.Controllers
             db.SaveChanges();
 
             return null;
-        }
-
-        public ActionResult ListTicket()
-        {
-            var flights = db.Flights.ToList();
-
-            return View(flights);
-        }
-
-        [HttpPost]
-        public ActionResult ListTickets(int idFlight)
-        {
-            var tickets = db.Tickets.Where(c => c.FlightId == idFlight).ToList();
-
-            return PartialView(tickets);
         }
 
         [HttpPost]

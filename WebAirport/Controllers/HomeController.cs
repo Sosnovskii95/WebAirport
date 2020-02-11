@@ -17,15 +17,5 @@ namespace WebAirport.Controllers
             //DbInit.Initialize(airportContext);
             return View();
         }
-
-        public ActionResult Flight()
-        {
-            return View();
-        }
-
-        public ActionResult Ticket()
-        {
-            return View();
-        }
     }
 }
