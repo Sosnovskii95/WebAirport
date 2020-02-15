@@ -1,4 +1,4 @@
-﻿
+﻿@model WebAirport.Models.Staff
 @{
     ViewBag.Title = "Добавление сотрудника";
 }
@@ -9,53 +9,70 @@
 
 <h2>Добавление сотрудника</h2>
 
-<form method="post">
-    <table>
-        <tr>
-            <td>Фамилия Имя</td>
-            <td><input type="text" name="FirstNameStaff"/></td>
-        </tr>
-        <tr>
-            <td>Отчество</td>
-            <td><input type="text" name="LastNameStaff"/></td>
-        </tr>
-        <tr>
-            <td>Пол</td>
-            <td>
-                <select name="Gender">
-                    <option>Мужской</option>
-                    <option>Женский</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Адрес</td>
-            <td><input type="text" name="Address"/></td>
-        </tr>
-        <tr>
-            <td>Телефон</td>
-            <td><input type="text" name="Telephone"/></td>
-        </tr>
-        <tr>
-            <td>Паспорт</td>
-            <td><input type="text" name="Passport"/></td>
-        </tr>
-        <tr>
-            <td>Должность</td>
-            <td>
-                <select name="PositionId">
-                    @foreach(var p in ViewBag.Positions)
-                    {
-                        <option value="@p.Id">@p.JobTitle</option>
-                    }
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Добавить сотрудника" />
-            </td>
-        </tr>
-    </table>
-</form>
+@Html.ValidationSummary(true)
+<div>
+    <form method="post">
+        <table>
+            <tr>
+                <td>Фамилия Имя</td>
+                <td>
+                    @Html.EditorFor(model => model.FirstNameStaff)
+                    @Html.ValidationMessageFor(model => model.FirstNameStaff)
+                </td>
+            </tr>
+            <tr>
+                <td>Отчество</td>
+                <td>
+                    @Html.EditorFor(model => model.LastNameStaff)
+                    @Html.ValidationMessageFor(model => model.LastNameStaff)
+                </td>
+            </tr>
+            <tr>
+                <td>Пол</td>
+                <td>
+                    <select name="Gender">
+                        <option>Мужской</option>
+                        <option>Женский</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Адрес</td>
+                <td>
+                    @Html.EditorFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </td>
+            </tr>
+            <tr>
+                <td>Телефон</td>
+                <td>
+                    @Html.EditorFor(model => model.Telephone)
+                    @Html.ValidationMessageFor(model => model.Telephone)
+                </td>
+            </tr>
+            <tr>
+                <td>Паспорт</td>
+                <td>
+                    @Html.EditorFor(model => model.Passport)
+                    @Html.ValidationMessageFor(model => model.Passport)
+                </td>
+            </tr>
+            <tr>
+                <td>Должность</td>
+                <td>
+                    @Html.DropDownListFor(model => model.PositionId, ViewBag.Positions as SelectList)
+                    @Html.ValidationMessageFor(model => model.PositionId)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Добавить сотрудника" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

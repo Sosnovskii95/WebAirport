@@ -1,4 +1,5 @@
-﻿
+﻿@model WebAirport.Models.Position
+
 @{
     ViewBag.Title = "Редактирование должности";
 }
@@ -9,30 +10,47 @@
 </div>
 
 <h2>Редактирование выбранной должности</h2>
-
-<form method="post">
-    <input type="text" hidden name="PositionId" value="@ViewBag.Position.Id" />
-    <table>
-        <tr>
-            <td>Название</td>
-            <td><input type="text" name="JobTitle" value="@ViewBag.Position.JobTitle" /></td>
-        </tr>
-        <tr>
-            <td>Оклад</td>
-            <td><input type="text" name="Salary" value="@ViewBag.Position.Salary" /></td>
-        </tr>
-        <tr>
-            <td>Обязанности</td>
-            <td><input type="text" name="Responsibilities" value="@ViewBag.Position.Responsibilities" /></td>
-        </tr>
-        <tr>
-            <td>Требования</td>
-            <td><input type="text" name="Requirements" value="@ViewBag.Position.Requirements" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <input type="submit" value="Сохранить изменения" />
-            </td>
-        </tr>
-    </table>
-</form>
+@Html.ValidationSummary(true)
+<div>
+    <form method="post">
+        @Html.HiddenFor(model => model.Id)
+        <table>
+            <tr>
+                <td>Название</td>
+                <td>
+                    @Html.EditorFor(model => model.JobTitle)
+                    @Html.ValidationMessageFor(model => model.JobTitle)
+                </td>
+            </tr>
+            <tr>
+                <td>Оклад</td>
+                <td>
+                    @Html.EditorFor(model => model.Salary)
+                    @Html.ValidationMessageFor(model => model.Salary)
+                </td>
+            </tr>
+            <tr>
+                <td>Обязанности</td>
+                <td>
+                    @Html.EditorFor(model => model.Responsibilities)
+                    @Html.ValidationMessageFor(model => model.Responsibilities)
+                </td>
+            </tr>
+            <tr>
+                <td>Требования</td>
+                <td>
+                    @Html.EditorFor(model => model.Requirements)
+                    @Html.ValidationMessageFor(model => model.Requirements)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="Сохранить изменения" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -9,21 +9,23 @@ namespace WebAirport.Models
 {
     public class Flight
     {
+        [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
         public DateTime DateTimeFlight { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
         [MaxLength(100)]
         public string DeparturePoint { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
         public string Destination { get; set; }
 
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
         public int JobAirplaneId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле должно быть заполнено")]
         public TimeSpan TimeInFlight { get; set; }
 
         public JobAirplane JobAirplane { get; set; }

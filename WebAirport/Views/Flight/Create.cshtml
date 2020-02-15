@@ -8,72 +8,79 @@
 </div>
 
 <h2>Добавление рейса</h2>
+@Html.ValidationSummary(true)
 <div>
     <form method="post">
         <table>
             <tr>
                 <td>Дата и время вылета</td>
-                <td><input type="datetime-local" name="DateTimeFlight"/></td>
+                <td>
+                    @Html.EditorFor(model => model.DateTimeFlight)
+                    @Html.ValidationMessageFor(model => model.DateTimeFlight)
+                </td>
             </tr>
             <tr>
                 <td>Пункт вылета</td>
-                <td>@Html.EditorFor(model => model.DeparturePoint)</td>
+                <td>
+                    @Html.EditorFor(model => model.DeparturePoint)
+                    @Html.ValidationMessageFor(model => model.DeparturePoint)
+                </td>
             </tr>
             <tr>
                 <td>Пункт назначения</td>
-                <td>@Html.EditorFor(model => model.Destination)</td>
+                <td>
+                    @Html.EditorFor(model => model.Destination)
+                    @Html.ValidationMessageFor(model => model.Destination)
+                </td>
             </tr>
             <tr>
                 <td>Время в полете</td>
-                <td><input type="time" name="TimeInFlight"/></td>
+                <td>
+                    @Html.EditorFor(model => model.TimeInFlight)
+                    @Html.ValidationMessageFor(model => model.TimeInFlight)
+                </td>
             </tr>
             <tr>
                 <td>Тип самолета</td>
                 <td>
-                    <select name="TypeAirplaneId" onchange="loadair(this.value)">
-                        <option value="0">Выбор типа</option>
-                            @foreach (var type in ViewBag.TypeAirplane)
-                            {
-                                <option value="@type.Id">@type.NameType</option>
-                            }
-                    </select>
+                    @Html.DropDownList("TypeAirplaneId", ViewBag.TypeAirplane as SelectList)
                 </td>
             </tr>
             <tr>
                 <td>Самолет</td>
-                <td id="result">
+                <td>
+                    @Html.DropDownListFor(model => model.JobAirplane.AirplaneId, ViewBag.Airplane as SelectList)
+                    @Html.ValidationMessageFor(model => model.JobAirplane.AirplaneId)
                 </td>
             </tr>
             <tr>
                 <td>Пилот</td>
                 <td>
-                    <select name="StaffId">
-                        @foreach(var staff in ViewBag.Staff)
-                        {
-                            <option value="@staff.Id">@staff.FirstNameStaff @staff.LastNameStaff</option>
-                        }
-                    </select>
+                    @Html.DropDownListFor(model => model.JobAirplane.StaffId, ViewBag.Staff as SelectList)
+                    @Html.ValidationMessageFor(model => model.JobAirplane.StaffId)
                 </td>
             </tr>
         </table>
         <input type="submit" value="Добавить" />
     </form>
-    </div>
-    
+</div>
+@Scripts.Render("~/scripts/jquery-3.4.1.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript">
 
-    <script type="text/javascript">
-
-        function loadair(value) {
-            if (value != 0) {
-                $.post("/Flight/ListAirplaneByType", { id: value })
-                    .done(function (data) { $("#result").html(data); })
-                    .fail(function () { $("#result").empty(); });
-            }
-            else {
-                $("#result").empty();
-            }
-        }
-    </script>
-
-    @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
-    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    $(function() {
+        $('#TypeAirplaneId').change(function () {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getAirplaneType")/' + id,
+                success: function (data) {
+                    $('#JobAirplane_AirplaneId').replaceWith(data);
+                }
+            });
+        });
+    })
+</script>

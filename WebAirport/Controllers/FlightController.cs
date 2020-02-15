@@ -15,7 +15,7 @@ namespace WebAirport.Controllers
         private AirportContext db = new AirportContext();
 
         // GET: Flight
-        public ActionResult Index(int ? page)
+        public ActionResult Index(int? page)
         {
             int pageNumber = (page ?? 1);
             int pageSize = 30;
@@ -26,8 +26,10 @@ namespace WebAirport.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.TypeAirplane = db.TypeAirplanes.ToList();
-            ViewBag.Staff = db.Staffs.ToList();
+            var typeAirplane = db.TypeAirplanes.First();
+            ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType");
+            ViewBag.Airplane = new SelectList(db.Airplanes.Where(t => t.TypeAirplaneId == typeAirplane.Id), "Id", "Model");
+            ViewBag.Staff = new SelectList(db.Staffs, "Id", "FirstNameStaff");
 
             return View();
         }
@@ -46,65 +48,57 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public void Create(Flight flight, JobAirplane jobAirplane)
+        public ActionResult Create(Flight flight)
         {
-            db.JobAirplanes.Add(jobAirplane);
-            db.SaveChanges();
-
-            flight.JobAirplaneId = jobAirplane.Id;
             db.Flights.Add(flight);
             db.SaveChanges();
-        }
-
-        [HttpPost]
-        public ActionResult ListTypeSelected(int id)
-        {
-            var type = db.TypeAirplanes.ToList();
-
-            ViewBag.IdSelected = id;
-
-            return PartialView(type);
-        }
-
-        [HttpPost]
-        public ActionResult ListAirplaneSelected(int idType, int idAir)
-        {
-            var airplane = db.Airplanes.Where(c => c.TypeAirplaneId == idType).ToList();
-
-            ViewBag.idSelected = idAir;
-
-            return PartialView(airplane);
-        }
-
-        [HttpPost]
-        public ActionResult ListStaffSelected(int idStaff)
-        {
-            var staffs = db.Staffs.ToList();
-            
-            ViewBag.idStaff = idStaff;
-
-            return PartialView(staffs);
-        }
-
-        public ActionResult Edit(int id)
-        {
-            var flight = db.Flights.Include(p => p.JobAirplane).
-                                    Include(j => j.JobAirplane.Airplane).
-                                    Include(s => s.JobAirplane.Staff).
-                                    Where(i => i.Id == id).
-                                    ToList();
-
-            return View(flight);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(Flight flight, JobAirplane jobAirplane)
-        {
-            db.Entry(flight).State = EntityState.Modified;
-            db.Entry(jobAirplane).State = EntityState.Modified;
-            db.SaveChanges();
-
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Edit(int ?id)
+        { 
+            if(id.HasValue)
+            {
+                var flight = db.Flights.Include(p => p.JobAirplane).
+                                    Where(i => i.Id == id).
+                                    FirstOrDefault();
+
+
+                int typeId = db.Airplanes.Where(t => t.Id == flight.JobAirplane.AirplaneId).
+                                          Select(t => t.TypeAirplaneId).
+                                          FirstOrDefault();
+
+                ViewBag.Staffs = new SelectList(db.Staffs, "Id", "FirstNameStaff");
+                ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType", typeId);
+                ViewBag.Airplane = new SelectList(db.Airplanes.Where(i => i.TypeAirplaneId == typeId), "Id", "Model");
+                return View(flight);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
+        public ActionResult getAirplaneType(int id)
+        {
+            return PartialView(db.Airplanes.Where(t => t.TypeAirplaneId == id).ToList());
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Flight flight)
+        {
+            if(ModelState.IsValid)
+            {
+                db.Entry(flight).State = EntityState.Modified;
+                db.Entry(flight.JobAirplane).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
 }

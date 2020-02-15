@@ -24,50 +24,68 @@ namespace WebAirport.Controllers
 
         public ActionResult Create()
         {
-            var TypeAirplanes = db.TypeAirplanes.ToList();
-
-            if (TypeAirplanes.Count != 0)
+            //Проверить на чистой бд
+            if (db.TypeAirplanes.Count() != 0)
             {
-                ViewBag.TypeAirplanes = TypeAirplanes;
+                ViewBag.TypeAirplanes = new SelectList(db.TypeAirplanes, "Id", "NameType");
             }
-
+            else
+            {
+                ViewBag.TypeAirplanes = null;
+            }
+          
             return View();
         }
 
         [HttpPost]
         public ActionResult Create(Airplane airplane)
         {
-            db.Airplanes.Add(airplane);
-            db.SaveChanges();
-
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                db.Airplanes.Add(airplane);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return HttpNotFound();
         }
 
-        /*public ActionResult ListAirplane()
+        public ActionResult Edit(int? id)
         {
-            var Airplanes = db.Airplanes.
-                Include(t => t.TypeAirplane).
-                ToList();
+            if (id.HasValue)
+            {
+                var airplane = db.Airplanes.Find(id);
 
-            return View(Airplanes);
-        }*/
+                if(db.TypeAirplanes.Count() != 0)
+                {
+                    ViewBag.TypeAirplanes = new SelectList(db.TypeAirplanes, "Id", "NameType");
+                }
+                else
+                {
+                    ViewBag.TypeAirplanes = null;
+                }
 
-        public ActionResult Edit(int id)
-        {
-            var airplane = db.Airplanes.Find(id);
-
-            ViewBag.TypeAirplanes = db.TypeAirplanes.ToList();
-
-            return View(airplane);
+                return View(airplane);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Edit(Airplane airplane)
         {
-            db.Entry(airplane).State = EntityState.Modified;
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                db.Entry(airplane).State = EntityState.Modified;
+                db.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }

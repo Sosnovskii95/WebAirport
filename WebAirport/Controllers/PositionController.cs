@@ -33,69 +33,80 @@ namespace WebAirport.Controllers
             db.Positions.Add(position);
             db.SaveChanges();
 
-            return RedirectToAction("Position", "Home");
+            return RedirectToAction("Index");
         }
 
-        /*public ActionResult ListPosition()
+        public ActionResult Edit(int? id)
         {
-            ViewBag.Positions = db.Positions.ToList();
-            return View();
-        }*/
-        
-        
-        public ActionResult Edit(int id)
-        {
-            ViewBag.Position = db.Positions.Find(id);
-
-            return View();
+            if (id.HasValue)
+            {
+                var position = db.Positions.Find(id);
+                return View(position);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Edit(Position position)
         {
-            db.Entry(position).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                db.Entry(position).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            var Staffs = db.Staffs.
-                        Where(p => p.PositionId == id).
-                        ToList();
-
-            if(Staffs.Count == 0)
+            if (id.HasValue)
             {
+                int countPosStaff = db.Staffs.Where(p => p.PositionId == id).Count();
                 var position = db.Positions.Find(id);
 
-                if(position != null)
+                if (countPosStaff == 0)
                 {
                     db.Positions.Remove(position);
                     db.SaveChanges();
-                }               
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    var staffsList = db.Staffs.Where(p => p.PositionId == id).ToList();
+                    ViewBag.positionsList = new SelectList(db.Positions, "Id", "JobTitle");
+                    ViewBag.currentPosition = position;
+
+                    return View(staffsList);
+                }
+            }
+            else
+            {
                 return RedirectToAction("Index");
             }
-
-            ViewBag.CurrentPosition = db.Positions.Find(id);
-            ViewBag.ListPosition = db.Positions.ToList();
-
-            return View(Staffs);
         }
 
         [HttpPost]
-        public void Delete(int [] arrStaff, int newIdPos)
+        public ActionResult Delete(int currentId, List<int> id, List<int> positionId)
         {
-            if (arrStaff.Length > 0)
+            for (int i = 0; i < id.Count; i++)
             {
-                for (int i = 0; i < arrStaff.Length; i++)
-                {
-                    var staff = db.Staffs.Find(arrStaff[i]);
-                    staff.PositionId = newIdPos;
+                var staff = db.Staffs.Find(id[i]);
 
-                    db.Entry(staff).State = EntityState.Modified;
-                }
-                db.SaveChanges();
+                staff.PositionId = positionId[i];
+                db.Entry(staff).State = EntityState.Modified;
+                
             }
+            db.SaveChanges();
+
+            return RedirectToAction("Delete", new { id = currentId });
         }
     }
 }

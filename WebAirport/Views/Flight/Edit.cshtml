@@ -1,92 +1,99 @@
-﻿@model IEnumerable<WebAirport.Models.Flight>
+﻿@model WebAirport.Models.Flight
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Редактирование рейса";
 }
 
 <div>
     @Html.ActionLink("Добавить новый рейс", "Create")
-    @Html.ActionLink("Список всех рейсов","Index")
+    @Html.ActionLink("Список всех рейсов", "Index")
 </div>
 
 <h2>Редактирование рейса</h2>
+@Html.ValidationSummary(true)
 <form method="post">
     <table>
-        @foreach (var flight in Model)
-        {
-            @Html.Hidden("Id", flight.Id)
-            @Html.Hidden("JobAirplaneId", flight.JobAirplaneId)
-            <tr>
-                <td>Дата и время рейса</td>
-                <td><input type="datetime-local" name="DateTimeFlight" value="@flight.DateTimeFlight.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ','T')" /></td>
-            </tr>
-            <tr>
-                <td>Пункт вылета</td>
-                <td><input type="text" name="DeparturePoint" value="@flight.DeparturePoint"/></td>
-            </tr>
-            <tr>
-                <td>Пункт прибытия</td>
-                <td><input type="text" name="Destination" value="@flight.Destination"/></td>
-            </tr>
-            <tr>
-                <td>Время полета</td>
-                <td><input type="time" name="TimeInFlight" value="@flight.TimeInFlight" /></td>
-            </tr>
-            <tr>
-                <td>Тип самолета</td>
-                @Html.Hidden("TypeAirplanesId", flight.JobAirplane.Airplane.TypeAirplaneId)
-                <td id="typeResult">
-                </td>
-            </tr>
-            <tr>
-                <td>Самолет</td>
-                @Html.Hidden("AirplanesId", flight.JobAirplane.AirplaneId)
-                <td id="airplaneResult">
-                </td>
-            </tr>
-            <tr>
-                <td>Пилот</td>
-                @Html.Hidden("StaffsId", flight.JobAirplane.StaffId)
-                <td id="staffResult">
-                </td>
-            </tr>
-           <tr>
-               <td colspan="2">
-                   <input type="submit" value="Сохранить изменения" />
-               </td>
-           </tr>
-        }
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.JobAirplaneId)
+        @Html.HiddenFor(model => model.JobAirplane.Id)
+        <tr>
+            <td>Дата и время рейса</td>
+            <td>
+                @Html.Editor("DateTimeFlight", new { htmlAttributes = new { @type = "datetime-local", Value = Model.DateTimeFlight.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T') } })
+                @Html.ValidationMessageFor(model => model.DateTimeFlight)
+            </td>
+        </tr>
+        <tr>
+            <td>Пункт вылета</td>
+            <td>
+                @Html.EditorFor(model => model.DeparturePoint)
+                @Html.ValidationMessageFor(model => model.DeparturePoint)
+            </td>
+        </tr>
+        <tr>
+            <td>Пункт прибытия</td>
+            <td>
+                @Html.EditorFor(model => model.Destination)
+                @Html.ValidationMessageFor(model => model.Destination)
+            </td>
+        </tr>
+        <tr>
+            <td>Время полета</td>
+            <td>
+                @Html.EditorFor(model => model.TimeInFlight, new { htmlAttributes = new { @type = "time" } })
+                @Html.ValidationMessageFor(model => model.TimeInFlight)
+            </td>
+        </tr>
+        <tr>
+            <td>Тип самолета</td>
+            <td>
+                @Html.DropDownList("TypeAirplaneId", ViewBag.TypeAirplane as SelectList)
+            </td>
+        </tr>
+        <tr>
+            <td>Самолет</td>
+            <td>
+                @Html.DropDownListFor(model => model.JobAirplane.AirplaneId, ViewBag.Airplane as SelectList)
+                @Html.ValidationMessageFor(model => model.JobAirplane.AirplaneId)
+            </td>
+        </tr>
+        <tr>
+            <td>Пилот</td>
+            <td>
+                @Html.DropDownListFor(model => model.JobAirplane.StaffId, ViewBag.Staffs as SelectList)
+                @Html.ValidationMessageFor(model => model.JobAirplane.StaffId)
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Сохранить изменения" />
+            </td>
+        </tr>
     </table>
 </form>
 
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 
+
 <script type="text/javascript">
-    $(document).ready(load());
 
-    function load() {
-        var idType = document.getElementById("TypeAirplanesId").value;
-        var idAir = document.getElementById("AirplanesId").value;
-        var idStaff = document.getElementById("StaffsId").value;
-
-        getTypeAirplanes(idType);
-        getAirplanes(idType, idAir);
-        getStaff(idStaff);
-    }
-
-    function getTypeAirplanes(idType) {
-        $.post("/Flight/ListTypeSelected", { id: idType })
-            .done(function (data) { $("#typeResult").html(data); });
-    }
-
-    function getAirplanes(idType, idAir) {
-        $.post("/Flight/ListAirplaneSelected", { idType: idType, idAir: idAir })
-            .done(function (data) { $("#airplaneResult").html(data); });
-    }
-
-    function getStaff(idStaff) {
-        $.post("/Flight/ListStaffSelected", { idStaff: idStaff })
-            .done(function (data) { $("#staffResult").html(data); });
-    }
+    $(function() {
+        $('#TypeAirplaneId').change(function () {
+            var id = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getAirplaneType")/' + id,
+                success: function (data) {
+                    $('#JobAirplane_AirplaneId').replaceWith(data);
+                }
+            });
+        });
+    })
 </script>
 

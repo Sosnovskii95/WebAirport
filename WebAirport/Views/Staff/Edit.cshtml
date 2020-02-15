@@ -1,4 +1,5 @@
-﻿
+﻿@model WebAirport.Models.Staff
+
 @{
     ViewBag.Title = "Редактирование сотрудника";
 }
@@ -8,25 +9,30 @@
 </div>
 
 <h2>Редактирование сотрудника</h2>
+@Html.ValidationSummary(true)
 <div>
     <form method="post">
         <table>
-            @foreach (var sta in ViewBag.Staff)
-            {
-            <input type="text" hidden name="Id" value="@sta.Id" />
+            @Html.HiddenFor(model => model.Id)
             <tr>
                 <td>Фамилия Имя</td>
-                <td><input type="text" name="FirstNameStaff" value="@sta.FirstNameStaff"/></td>
+                <td>
+                    @Html.EditorFor(model => model.FirstNameStaff)
+                    @Html.ValidationMessageFor(model => model.FirstNameStaff)
+                </td>
             </tr>
             <tr>
                 <td>Отчество</td>
-                <td><input type="text" name="LastNameStaff" value="@sta.LastNameStaff"/></td>
+                <td>
+                    @Html.EditorFor(model => model.LastNameStaff)
+                    @Html.ValidationMessageFor(model => model.LastNameStaff)
+                </td>
             </tr>
             <tr>
                 <td>Пол</td>
                 <td>
                     <select name="Gender">
-                        @if (sta.Gender == "Мужской")
+                        @if (Model.Gender == "Мужской")
                         {
                             <option selected="selected">Мужской</option>
                         }
@@ -34,7 +40,7 @@
                         {
                             <option>Мужской</option>
                         }
-                        @if (sta.Gender == "Женский")
+                        @if (Model.Gender == "Женский")
                         {
                             <option selected="selected">Женский</option>
                         }
@@ -47,34 +53,30 @@
             </tr>
             <tr>
                 <td>Адрес</td>
-                <td><input type="text" name="Address" value="@sta.Address"/></td>
+                <td>
+                    @Html.EditorFor(model => model.Address)
+                    @Html.ValidationMessageFor(model => model.Address)
+                </td>
             </tr>
             <tr>
                 <td>Телефон</td>
-                <td><input type="text" name="Telephone" value="@sta.Telephone"/></td>
+                <td>
+                    @Html.EditorFor(model => model.Telephone)
+                    @Html.ValidationMessageFor(model => model.Telephone)
+                </td>
             </tr>
             <tr>
                 <td>Паспорт</td>
-                <td><input type="text" name="Passport" value="@sta.Passport"/></td>
+                <td>
+                    @Html.EditorFor(model => model.Passport)
+                    @Html.ValidationMessageFor(model => model.Passport)
+                </td>
             </tr>
             <tr>
                 <td>Должность</td>
                 <td>
-                    <label>@sta.Position.JobTitle</label>
-                    Замена должности
-                    <select name="PositionId">
-                        @foreach (var pos in ViewBag.Positions)
-                        {
-                            if (pos.Id == sta.PositionId)
-                            {
-                                <option selected="selected" value="@pos.Id">@pos.JobTitle</option>
-                            }
-                            else
-                            {
-                                <option value="@pos.Id">@pos.JobTitle</option>
-                            }
-                        }
-                    </select>
+                    @Html.DropDownListFor(model => model.PositionId, ViewBag.Positions as SelectList)
+                    @Html.ValidationMessageFor(model => model.PositionId)
                 </td>
             </tr>
             <tr>
@@ -82,8 +84,11 @@
                     <input type="submit" value="Сохранить изменения" />
                 </td>
             </tr>
-            }
         </table>
     </form>
 </div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
 

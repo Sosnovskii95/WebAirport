@@ -1,0 +1,8 @@
+﻿@model IEnumerable<WebAirport.Models.Airplane>
+
+<select name="JobAirplane.AirplaneId" id="JobAirplane_AirplaneId">
+    @foreach(var air in Model)
+    {
+        <option value="@air.Id">@air.Model</option>
+    }
+</select>

@@ -1,10 +1,13 @@
-﻿
+﻿@model WebAirport.Models.Position
+
 @{
     ViewBag.Title = "Новая должность";
 }
 <div>
     @Html.ActionLink("Список должностей", "Index")
 </div>
+
+@Html.ValidationSummary(true)
 
 <h2>Данные для добавления новой должности</h2>
 <form method="post">
@@ -14,15 +17,17 @@
                 Название должности
             </td>
             <td>
-                <input type="text" name="JobTitle">
+                @Html.EditorFor(model => model.JobTitle)
+                @Html.ValidationMessageFor(model => model.JobTitle)
             </td>
-            </tr>
+        </tr>
         <tr>
             <td>
                 Оклад
             </td>
             <td>
-                <input type="text" name="Salary" />
+                @Html.EditorFor(model => model.Salary)
+                @Html.ValidationMessageFor(model =>model.Salary)
             </td>
         </tr>
         <tr>
@@ -30,7 +35,8 @@
                 Обязанности
             </td>
             <td>
-                <input type="text" name="Responsibilities" />
+                @Html.EditorFor(model => model.Responsibilities)
+                @Html.ValidationMessageFor(model => model.Responsibilities)
             </td>
         </tr>
         <tr>
@@ -38,13 +44,19 @@
                 Требования
             </td>
             <td>
-                <input type="text" name="Requirements" />
+                @Html.EditorFor(model => model.Requirements)
+                @Html.ValidationMessageFor(model => model.Requirements)
             </td>
         </tr>
         <tr>
             <td>
-                <input type="submit" value="Добавить"/>
+                <input type="submit" value="Добавить" />
             </td>
         </tr>
     </table>
 </form>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

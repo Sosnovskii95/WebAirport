@@ -10,61 +10,79 @@
 </div>
 
 <h2>Данные выбранного самолета</h2>
+@Html.ValidationSummary(true)
 
 <div>
     <form method="post">
         <table>
-                <tr>
-                    <td>@Html.HiddenFor(model => model.Id)</td>
-                </tr>
-                <tr>
-                    <td>Модель самолета</td>
-                    <td>@Html.EditorFor(model => model.Model)</td>
-                </tr>
-                <tr>
-                    <td>Вместимость пассажирова</td>
-                    <td>@Html.EditorFor(model => model.PessengerCapacity)</td>
-                </tr>
-                <tr>
-                    <td>Грузовая вместимость</td>
-                    <td>@Html.EditorFor(model => model.CarryingCapacity)</td>
-                </tr>
-                <tr>
-                    <td>Спецификация</td>
-                    <td>@Html.EditorFor(model => model.Specifications)</td>
-                </tr>
-                <tr>
-                    <td>Часов налета</td>
-                    <td>@Html.EditorFor(model => model.FlyingHours)</td>
-                </tr>
-                <tr>
-                    <td>Дата создания</td>
-                    <td><input type="date" name="ReleaseDate" value="@String.Format("{0:yyyy-MM-dd}", Model.ReleaseDate)" /></td>
-                </tr>
-                <tr>
-                    <td>Дата последнего ремонта</td>
-                    <td><input type="date" name="LastRepairDate" value="@String.Format("{0:yyyy-MM-dd}", Model.LastRepairDate)" /></td>
-                </tr>
-                <tr>
-                    <td>Типы самолетов</td>
-                    <td>
-                        <select name="TypeAirplaneId">
-                            @foreach (var type in ViewBag.TypeAirplanes)
-                            {
-                                if (Model.TypeAirplaneId == type.Id)
-                                {
-                                    <option value="@type.Id" selected="selected">@type.NameType</option>
-                                }
-                                else
-                                {
-                                    <option value="@type.Id">@type.NameType</option>
-                                }
-                            }
-                        </select>
-                    </td>
-                </tr>
-            </table>
-        
+            <tr>
+                <td>@Html.HiddenFor(model => model.Id)</td>
+            </tr>
+            <tr>
+                <td>Модель самолета</td>
+                <td>
+                    @Html.EditorFor(model => model.Model)
+                    @Html.ValidationMessageFor(model => model.Model)
+                </td>
+            </tr>
+            <tr>
+                <td>Вместимость пассажирова</td>
+                <td>
+                    @Html.EditorFor(model => model.PessengerCapacity)
+                    @Html.ValidationMessageFor(model => model.PessengerCapacity)
+                </td>
+            </tr>
+            <tr>
+                <td>Грузовая вместимость</td>
+                <td>
+                    @Html.EditorFor(model => model.CarryingCapacity)
+                    @Html.ValidationMessageFor(model => model.CarryingCapacity)
+                </td>
+            </tr>
+            <tr>
+                <td>Спецификация</td>
+                <td>
+                    @Html.EditorFor(model => model.Specifications)
+                    @Html.ValidationMessageFor(model => model.Specifications)
+                </td>
+            </tr>
+            <tr>
+                <td>Часов налета</td>
+                <td>
+                    @Html.EditorFor(model => model.FlyingHours)
+                    @Html.ValidationMessageFor(model => model.FlyingHours)
+                </td>
+            </tr>
+            <tr>
+                <td>Дата создания</td>
+                <td>
+                    <input type="date" name="ReleaseDate" required value="@String.Format("{0:yyyy-MM-dd}", Model.ReleaseDate)" />
+                    @Html.ValidationMessageFor(model => model.ReleaseDate)
+                </td>
+            </tr>
+            <tr>
+                <td>Дата последнего ремонта</td>
+                <td>
+                    <input type="date" name="LastRepairDate" required value="@String.Format("{0:yyyy-MM-dd}", Model.LastRepairDate)" />
+                    @Html.ValidationMessageFor(model => model.LastRepairDate)
+                </td>
+            </tr>
+            <tr>
+                <td>Типы самолетов</td>
+                <td>
+                    @if (ViewBag.TypeAirplanes != null)
+                    {
+                        @Html.DropDownListFor(model => model.TypeAirplaneId, ViewBag.TypeAirplanes as SelectList)
+                        @Html.ValidationMessageFor(model => model.TypeAirplaneId)
+                    }
+                </td>
+            </tr>
+        </table>
+
         <input type="submit" value="Сохранить изменения" />
     </form>
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

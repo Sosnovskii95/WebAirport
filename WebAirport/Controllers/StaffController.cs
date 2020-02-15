@@ -25,7 +25,7 @@ namespace WebAirport.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.Positions = db.Positions.ToList();
+            ViewBag.Positions = new SelectList(db.Positions, "Id", "JobTitle");
 
             return View();
         }
@@ -36,26 +36,23 @@ namespace WebAirport.Controllers
             db.Staffs.Add(staff);
             db.SaveChanges();
 
-            return RedirectToAction("ListStaff");
+            return RedirectToAction("Index");
         }
 
-        public ActionResult ListStaff()
+        public ActionResult Edit(int? id)
         {
-            ViewBag.Staffs = db.Staffs.
-                Include(s => s.Position).ToList();
+            if(id.HasValue)
+            {
+                var staff = db.Staffs.Find(id);
 
-            return View();
-        }
+                ViewBag.Positions = new SelectList(db.Positions, "Id", "JobTitle");
 
-        public ActionResult Edit(int id)
-        {
-            ViewBag.Staff = db.Staffs.
-                Where(c => c.Id == id).
-                Include(p => p.Position).ToList();
-
-            ViewBag.Positions = db.Positions.ToList();
-
-            return View();
+                return View(staff);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -64,7 +61,7 @@ namespace WebAirport.Controllers
             db.Entry(staff).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("ListStaff");
+            return RedirectToAction("Index");
         }
     }
 }
