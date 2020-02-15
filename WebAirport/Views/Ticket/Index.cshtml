@@ -8,9 +8,9 @@
 @{
     ViewBag.Title = "Билеты";
 }
-    <div>
-        @Html.ActionLink("Добавить билет", "Create")
-    </div>
+<div>
+    @Html.ActionLink("Добавить билет", "Create")
+</div>
 
 
 <h2>Управление билетами</h2>
@@ -33,6 +33,7 @@
             <td>@ticket.PositionPassenger</td>
             <td>@ticket.Seat</td>
             <td>@ticket.Price</td>
+            <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
         </tr>
     }
 </table>

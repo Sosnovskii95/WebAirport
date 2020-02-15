@@ -1,15 +1,20 @@
 ﻿@model WebAirport.Models.Ticket
 @{
-    ViewBag.Title = "Добавить билет";
+    ViewBag.Title = "Редактирование билета";
 }
+
 <div>
+    @Html.ActionLink("Добавить билет", "Create")
     @Html.ActionLink("Список билетов", "Index")
 </div>
-<h2>Добавить новый билет</h2>
+
+<h2>Редактирование билета</h2>
 
 @Html.ValidationSummary(true)
+
 <div>
     <form method="post">
+        @Html.HiddenFor(model => model.Id)
         <table>
             <tr>
                 <td>Фамилия и Имя пассажира</td>

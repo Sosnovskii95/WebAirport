@@ -37,25 +37,28 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        /*public ActionResult ListTypeAirplane()
+
+        public ActionResult Edit(int? id)
         {
-            ViewBag.TypeAirplanes = db.TypeAirplanes.ToList();
-
-            return View();
-        }*/
-
-        public ActionResult Edit(int id)
-        {
-            ViewBag.TypeAirplane = db.TypeAirplanes.Find(id);
-
-            return View();
+            if (id.HasValue)
+            {
+                ViewBag.TypeAirplane = db.TypeAirplanes.Find(id);
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public ActionResult Edit(TypeAirplane typeAirplane)
         {
-            db.Entry(typeAirplane).State = EntityState.Modified;
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                db.Entry(typeAirplane).State = EntityState.Modified;
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }

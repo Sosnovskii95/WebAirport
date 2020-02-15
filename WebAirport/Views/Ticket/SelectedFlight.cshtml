@@ -1,7 +1,10 @@
 ﻿@model WebAirport.Models.Flight
-<br />
-<h2>Данные о рейсе</h2>
-<p>Дата и время вылета: @Html.DisplayFor(model => model.DateTimeFlight)</p>
-<p>Пункт отправления: @Html.DisplayFor(model => model.DeparturePoint)</p>
-<p>Пункт прибытия: @Html.DisplayFor(model => model.Destination)</p>
-<p>Время в полете: @Html.DisplayFor(model => model.TimeInFlight)</p>
+
+<div id="selectFlight">
+    <br />
+    <h2>Данные о рейсе</h2>
+    <p>Дата и время вылета: @Html.DisplayFor(model => model.DateTimeFlight)</p>
+    <p>Пункт отправления: @Html.DisplayFor(model => model.DeparturePoint)</p>
+    <p>Пункт прибытия: @Html.DisplayFor(model => model.Destination)</p>
+    <p>Время в полете: @Html.DisplayFor(model => model.TimeInFlight)</p>
+</div>

@@ -29,7 +29,11 @@ namespace WebAirport.Controllers
             var typeAirplane = db.TypeAirplanes.First();
             ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType");
             ViewBag.Airplane = new SelectList(db.Airplanes.Where(t => t.TypeAirplaneId == typeAirplane.Id), "Id", "Model");
-            ViewBag.Staff = new SelectList(db.Staffs, "Id", "FirstNameStaff");
+            ViewBag.Staff = new SelectList(db.Staffs.Select(s => new
+            {
+                Id = s.Id,
+                FullNameStaff = s.FirstNameStaff + " " + s.LastNameStaff
+            }), "Id", "FullNameStaff");
 
             return View();
         }
@@ -55,9 +59,9 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int ?id)
-        { 
-            if(id.HasValue)
+        public ActionResult Edit(int? id)
+        {
+            if (id.HasValue)
             {
                 var flight = db.Flights.Include(p => p.JobAirplane).
                                     Where(i => i.Id == id).
@@ -68,7 +72,11 @@ namespace WebAirport.Controllers
                                           Select(t => t.TypeAirplaneId).
                                           FirstOrDefault();
 
-                ViewBag.Staffs = new SelectList(db.Staffs, "Id", "FirstNameStaff");
+                ViewBag.Staffs = new SelectList(db.Staffs.Select(s => new
+                {
+                    Id = s.Id,
+                    FullNameStaff = s.FirstNameStaff + " " + s.LastNameStaff
+                }), "Id", "FullNameStaff");
                 ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType", typeId);
                 ViewBag.Airplane = new SelectList(db.Airplanes.Where(i => i.TypeAirplaneId == typeId), "Id", "Model");
                 return View(flight);
@@ -87,7 +95,7 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Edit(Flight flight)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Entry(flight).State = EntityState.Modified;
                 db.Entry(flight.JobAirplane).State = EntityState.Modified;

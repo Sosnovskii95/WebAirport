@@ -1,29 +1,33 @@
-﻿
+﻿@model WebAirport.Models.TypeAirplane
 @{
     ViewBag.Title = "Новый тип самолета";
 }
 
 <h2>Добавление нового типа самолета</h2>
 
+@Html.ValidationSummary(true)
 <div>
     <form method="post">
         <table>
             <tr>
                 <td>Название типа</td>
                 <td>
-                    <input type="text" name="NameType" />
+                    @Html.EditorFor(model => model.NameType)
+                    @Html.ValidationMessageFor(model => model.NameType)
                 </td>
             </tr>
             <tr>
                 <td>Назначение</td>
                 <td>
-                    <input type="text" name="Appointment" />
+                    @Html.EditorFor(model => model.Appointment)
+                    @Html.ValidationMessageFor(model => model.Appointment)
                 </td>
             </tr>
             <tr>
                 <td>Лимиты</td>
                 <td>
-                    <input type="text" name="Limitation" />
+                    @Html.EditorFor(model => model.Limitation)
+                    @Html.ValidationMessageFor(model => model.Limitation)
                 </td>
             </tr>
             <tr>
@@ -35,3 +39,6 @@
     </form>
 </div>
 
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

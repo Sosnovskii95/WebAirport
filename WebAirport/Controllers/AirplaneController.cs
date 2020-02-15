@@ -87,5 +87,24 @@ namespace WebAirport.Controllers
                 return HttpNotFound();
             }
         }
+
+        public ActionResult Delete(int id)
+        {
+            int countJobAirplane = db.JobAirplanes.Where(i => i.AirplaneId == id).Count();
+            var airplane = db.Airplanes.Find(id);
+
+            if(countJobAirplane == 0)
+            {
+                db.Airplanes.Remove(airplane);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                var jobAirplanesList = db.JobAirplanes.Where(a => a.AirplaneId == id).ToList();
+                ViewBag.Flights = new SelectList(db.Flights)
+            }
+        }
     }
 }
