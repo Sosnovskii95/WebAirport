@@ -13,8 +13,8 @@ namespace WebAirport.Data
             int max = 100;
             Random random = new Random(1);
             for (int i = 0; i < max; i++)
-            { 
-                for (int j = 0; j < 10; j++) 
+            {
+                for (int j = 0; j < 10; j++)
                 {
                     int rand = random.Next(0, 4);
 
@@ -36,14 +36,13 @@ namespace WebAirport.Data
                     var flight = getFlights(rand, jobAirplane);
                     db.Flights.Add(flight);
 
-                    for (int k = 0; k < 10; k++) 
+                    for (int k = 0; k < 10; k++)
                     {
                         db.Tickets.Add(getTicket(rand, flight));
                     }
                 }
+                db.SaveChanges();
             }
-            db.SaveChanges();
-
         }
 
         private static Position getPosition(int rand)
@@ -131,7 +130,7 @@ namespace WebAirport.Data
             return airplane;
         }
 
-        private static JobAirplane getJobAirplane (Airplane airplane, Staff staff)
+        private static JobAirplane getJobAirplane(Airplane airplane, Staff staff)
         {
             JobAirplane jobAirplane = new JobAirplane
             {

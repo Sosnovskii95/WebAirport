@@ -9,6 +9,11 @@ namespace WebAirport.Data
 {
     public class AirportContext : DbContext
     {
+        static AirportContext()
+        {
+            Database.SetInitializer<AirportContext>(new AirportContextInitializer());
+        }
+
         public AirportContext() : base("BaseAirport") { }
 
         public DbSet<Airplane> Airplanes { get; set; }

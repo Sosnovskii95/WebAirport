@@ -142,6 +142,7 @@
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TypeAirplaneController.cs" />
     <Compile Include="Data\AirportContext.cs" />
+    <Compile Include="Data\AirportContextInitializer.cs" />
     <Compile Include="Data\DbInit.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
