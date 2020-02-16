@@ -22,7 +22,8 @@
                 <td>@typeA.NameType</td>
                 <td>@typeA.Appointment</td>
                 <td>@typeA.Limitation</td>
-                <td><a href="/TypeAirplane/Edit/@typeA.Id">Редактировать</a></td>
+                <td>@Html.ActionLink("Редактировать", "Edit", new { typeA.Id })</td>
+                <td>@Html.ActionLink("Удалить", "Delete", new { typeA.Id })</td>
             </tr>
         }
     </table>

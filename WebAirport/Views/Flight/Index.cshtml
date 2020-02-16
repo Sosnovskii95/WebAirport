@@ -27,7 +27,8 @@
             <td>@flight.DeparturePoint</td>
             <td>@flight.Destination</td>
             <td>@flight.TimeInFlight</td>
-            <td>@Html.ActionLink("Редактировать", "Edit", new { Id = flight.Id })</td>
+            <td>@Html.ActionLink("Редактировать", "Edit", new { flight.Id })</td>
+            <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id })</td>
         </tr>
     }
 </table>

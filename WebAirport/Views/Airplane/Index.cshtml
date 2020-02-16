@@ -33,6 +33,7 @@
             <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
             <td>@air.TypeAirplane.NameType</td>
             <td>@Html.ActionLink("Редактировать", "Edit", new { air.Id })</td>
+            <td>@Html.ActionLink("Удалить", "Delete", new { air.Id })</td>
         </tr>
     }
 </table>

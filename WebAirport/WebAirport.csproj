@@ -213,6 +213,10 @@
     <Content Include="Views\Flight\Index.cshtml" />
     <Content Include="Views\Flight\getAirplaneType.cshtml" />
     <Content Include="Views\Ticket\Edit.cshtml" />
+    <Content Include="Views\Flight\Delete.cshtml" />
+    <Content Include="Views\TypeAirplane\Delete.cshtml" />
+    <Content Include="Views\Staff\Delete.cshtml" />
+    <Content Include="Views\Airplane\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

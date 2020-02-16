@@ -12,25 +12,26 @@
 <div>
     <table>
         <tr>
-            <td><p>Фамилия Имя</p></td>
-            <td><p>Отчество</p></td>
-            <td><p>Пол</p></td>
-            <td><p>Адресс</p></td>
-            <td><p>Телефон</p></td>
-            <td><p>Пасспорт</p></td>
-            <td><p>Должность</p></td>
+            <td>Фамилия Имя</td>
+            <td>Отчество</td>
+            <td>Пол</td>
+            <td>Адресс</td>
+            <td>Телефон</td>
+            <td>Пасспорт</td>
+            <td>Должность</td>
         </tr>
         @foreach (var s in Model)
         {
             <tr>
-                <td><p>@s.FirstNameStaff</p></td>
-                <td><p>@s.LastNameStaff</p></td>
-                <td><p>@s.Gender</p></td>
-                <td><p>@s.Address</p></td>
-                <td><p>@s.Telephone</p></td>
-                <td><p>@s.Passport</p></td>
-                <td><p>@s.Position.JobTitle</p></td>
+                <td>@s.FirstNameStaff</td>
+                <td>@s.LastNameStaff</td>
+                <td>@s.Gender</td>
+                <td>@s.Address</td>
+                <td>@s.Telephone</td>
+                <td>@s.Passport</td>
+                <td>@s.Position.JobTitle</td>
                 <td>@Html.ActionLink("Редактировать", "Edit", new { s.Id })</td>
+                <td>@Html.ActionLink("Удалить", "Delete", new { s.Id })</td>
             </tr>
         }
     </table>

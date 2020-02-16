@@ -42,8 +42,8 @@ namespace WebAirport.Controllers
         {
             if (id.HasValue)
             {
-                ViewBag.TypeAirplane = db.TypeAirplanes.Find(id);
-                return View();
+                var typeAirplane = db.TypeAirplanes.Find(id);
+                return View(typeAirplane);
             }
             else
             {
@@ -61,6 +61,53 @@ namespace WebAirport.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                var typeAirplane = db.TypeAirplanes.Find(id);
+                if (typeAirplane != null)
+                {
+                    if (db.Airplanes.Where(i => i.TypeAirplaneId == id).Count() > 0)
+                    {
+                        var airplaneList = db.Airplanes.Where(i => i.TypeAirplaneId == id).ToList();
+                        ViewBag.typeAirplanesList = db.TypeAirplanes.ToList();
+                        ViewBag.currentTypeAirplane = typeAirplane;
+
+                        return View(airplaneList);
+                    }
+                    else
+                    {
+                        db.TypeAirplanes.Remove(typeAirplane);
+                        db.SaveChanges();
+                    }
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int currentId, List<int> id, List<int> typeAirplaneId)
+        {
+            if (id != null && typeAirplaneId != null)
+            {
+                for (int i = 0; i < id.Count; i++)
+                {
+                    if (typeAirplaneId[i] != currentId)
+                    {
+                        var airplane = db.Airplanes.Find(id[i]);
+
+                        airplane.TypeAirplaneId = typeAirplaneId[i];
+                        db.Entry(airplane).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Delete", new { currentId });
         }
     }
 }

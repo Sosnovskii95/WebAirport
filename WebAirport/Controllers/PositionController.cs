@@ -68,45 +68,49 @@ namespace WebAirport.Controllers
         {
             if (id.HasValue)
             {
-                int countPosStaff = db.Staffs.Where(p => p.PositionId == id).Count();
                 var position = db.Positions.Find(id);
 
-                if (countPosStaff == 0)
+                if (position != null)
                 {
-                    db.Positions.Remove(position);
-                    db.SaveChanges();
+                    if (db.Staffs.Where(p => p.PositionId == id).Count() > 0)
+                    {
+                        var staffsList = db.Staffs.Where(p => p.PositionId == id).ToList();
+                        ViewBag.positionsList = db.Positions.ToList();
+                        ViewBag.currentPosition = position;
 
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    var staffsList = db.Staffs.Where(p => p.PositionId == id).ToList();
-                    ViewBag.positionsList = new SelectList(db.Positions, "Id", "JobTitle");
-                    ViewBag.currentPosition = position;
-
-                    return View(staffsList);
+                        return View(staffsList);
+                    }
+                    else
+                    {
+                        db.Positions.Remove(position);
+                        db.SaveChanges();
+                    }
                 }
             }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult Delete(int currentId, List<int> id, List<int> positionId)
         {
-            for (int i = 0; i < id.Count; i++)
+            if (id != null && positionId != null)
             {
-                var staff = db.Staffs.Find(id[i]);
+                for (int i = 0; i < id.Count; i++)
+                {
+                    if (positionId[i] != currentId)
+                    {
+                        var staff = db.Staffs.Find(id[i]);
 
-                staff.PositionId = positionId[i];
-                db.Entry(staff).State = EntityState.Modified;
-                
+                        staff.PositionId = positionId[i];
+                        db.Entry(staff).State = EntityState.Modified;
+                    }
+
+                }
+                db.SaveChanges();
             }
-            db.SaveChanges();
 
-            return RedirectToAction("Delete", new { id = currentId });
+            return RedirectToAction("Delete", new { currentId });
         }
     }
 }

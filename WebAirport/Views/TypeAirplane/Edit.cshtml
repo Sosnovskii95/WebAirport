@@ -3,6 +3,11 @@
     ViewBag.Title = "Редактирование";
 }
 
+<div>
+    @Html.ActionLink("Добавить тип самолета", "Create")
+    @Html.ActionLink("Список типов самолетов", "Index")
+</div>
+
 <h2>Редактирование типа самолета</h2>
 
 @Html.ValidationSummary(true)

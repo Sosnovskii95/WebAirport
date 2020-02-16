@@ -4,12 +4,20 @@
     ViewBag.Title = "Список сотрудников";
 }
 
+<div>
+    @Html.ActionLink("Добавить должность", "Create")
+    @Html.ActionLink("Список должностей", "Index")
+</div>
+
 <h2>Список связанных сотрудников с выбранной должностью</h2>
 
 <div>
     @Html.ValidationSummary(true)
     <form method="post">
-        <p>Выбранная должность для удаления: @ViewBag.currentPosition.JobTitle <input type="text" hidden value="@ViewBag.currentPosition.Id" name="currentId" /></p>
+        <p>
+            Выбранная должность для удаления: @ViewBag.currentPosition.JobTitle
+            <input type="text" hidden value="@ViewBag.currentPosition.Id" name="currentId" />
+        </p>
         <table>
             <tr>
                 <td>Фамилия Имя</td>
@@ -25,7 +33,7 @@
                     <td>@staff.LastNameStaff</td>
                     <td>@staff.Position.JobTitle</td>
                     <td>
-                        @Html.DropDownListFor(model => staff.PositionId, ViewBag.positionsList as SelectList, new { Name = "PositionId" })
+                        @Html.DropDownList("PositionId", new SelectList(ViewBag.positionsList, "Id", "JobTitle", ViewBag.currentPosition.Id))
                     </td>
                 </tr>
             }

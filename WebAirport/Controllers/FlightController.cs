@@ -108,5 +108,55 @@ namespace WebAirport.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                var flight = db.Flights.Find(id);
+
+                if (flight != null)
+                {
+                    if (db.Tickets.Where(i => i.FlightId == id).Count() > 0)
+                    {
+                        var ticketList = db.Tickets.Where(i => i.FlightId == id).ToList();
+                        ViewBag.Flights = db.Flights.Select(s => new
+                        {
+                            Id = s.Id,
+                            Description = s.DeparturePoint + " - " + s.Destination
+                        }).ToList();//Список рейсов
+                        ViewBag.currentFlight = flight;
+
+                        return View(ticketList);
+                    }
+                    else
+                    {
+                        db.Flights.Remove(flight);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int currentId, List<int> id, List<int> flightId)
+        {
+            if (id != null && flightId != null)
+            {
+                for (int i = 0; i < id.Count; i++)
+                {
+                    if (flightId[i] != currentId)
+                    {
+                        var ticket = db.Tickets.Find(id[i]);
+
+                        ticket.FlightId = flightId[i];
+                        db.Entry(ticket).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("Delete", new { currentId });
+        }
     }
 }

@@ -33,14 +33,14 @@ namespace WebAirport.Controllers
             {
                 ViewBag.TypeAirplanes = null;
             }
-          
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Create(Airplane airplane)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Airplanes.Add(airplane);
                 db.SaveChanges();
@@ -55,7 +55,7 @@ namespace WebAirport.Controllers
             {
                 var airplane = db.Airplanes.Find(id);
 
-                if(db.TypeAirplanes.Count() != 0)
+                if (db.TypeAirplanes.Count() != 0)
                 {
                     ViewBag.TypeAirplanes = new SelectList(db.TypeAirplanes, "Id", "NameType");
                 }
@@ -75,7 +75,7 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Edit(Airplane airplane)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Entry(airplane).State = EntityState.Modified;
                 db.SaveChanges();
@@ -90,21 +90,48 @@ namespace WebAirport.Controllers
 
         public ActionResult Delete(int id)
         {
-            int countJobAirplane = db.JobAirplanes.Where(i => i.AirplaneId == id).Count();
             var airplane = db.Airplanes.Find(id);
 
-            if(countJobAirplane == 0)
+            if (airplane != null)
             {
-                db.Airplanes.Remove(airplane);
-                db.SaveChanges();
+                if (db.JobAirplanes.Where(a => a.AirplaneId == id).Count() > 0)
+                {
+                    var flightList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
+                                                Where(a => a.AirplaneId == id).FirstOrDefault()).ToList();
+                    ViewBag.airplaneList = db.Airplanes.ToList();
+                    ViewBag.currentAirplane = airplane;
 
-                return RedirectToAction("Index");
+                    return View(flightList);
+                }
+                else
+                {
+                    db.Airplanes.Remove(airplane);
+                    db.SaveChanges();
+                }
             }
-            else
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int currentId, List<int> id, List<int> airplaneId)
+        {
+            if (id != null && airplaneId != null)
             {
-                var jobAirplanesList = db.JobAirplanes.Where(a => a.AirplaneId == id).ToList();
-                ViewBag.Flights = new SelectList(db.Flights)
+                for (int i = 0; i < id.Count; i++)
+                {
+                    if (airplaneId[i] != currentId)
+                    {
+                        var jobAirplane = db.JobAirplanes.Where(a => a.AirplaneId == currentId).FirstOrDefault();
+
+                        jobAirplane.AirplaneId = airplaneId[i];
+                        db.Entry(jobAirplane).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
             }
+
+            return RedirectToAction("Delete", new { currentId });
         }
     }
 }

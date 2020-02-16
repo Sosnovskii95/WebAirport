@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebAirport.Models.Flight>
+
+@{
+    ViewBag.Title = "Удаление сотрудника";
+}
+
+<div>
+    @Html.ActionLink("Добавить сотрудника", "Create")
+    @Html.ActionLink("Список сотрудников", "Index")
+</div>
+
+<h2>Список связанных рейсов с выбранным сотрудником</h2>
+
+<div>
+    <form method="post">
+        <p>
+            Выбранный сотрудник для удаления: @ViewBag.currentStaff.FirstNameStaff @ViewBag.currentStaff.LastNameStaff
+            <input type="text" hidden name="currentId" value="@ViewBag.currentStaff.Id" />
+        </p>
+        <table>
+            <tr>
+                <td>Дата и время полета</td>
+                <td>Пункт вылета</td>
+                <td>Пункт назначения</td>
+                <td>Время полета</td>
+                <td>Замена сотрудника</td>
+            </tr>
+            @foreach (var flight in Model)
+            {
+                <tr>
+                    @Html.HiddenFor(model => flight.Id)
+                    <td>@flight.DateTimeFlight</td>
+                    <td>@flight.DeparturePoint</td>
+                    <td>@flight.Destination</td>
+                    <td>@flight.TimeInFlight</td>
+                    <td>
+                        @Html.DropDownList("StaffId", new SelectList(ViewBag.staffsList, "Id", "Description", ViewBag.currentStaff.Id))
+                    </td>
+                </tr>
+            }
+        </table>
+        <input type="submit" value="Сохранить изменения" />
+    </form>
+</div>

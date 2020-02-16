@@ -80,5 +80,20 @@ namespace WebAirport.Controllers
                 db.SaveChanges();
             }
         }
+
+        public ActionResult Delete(int? id)
+        {
+            if(id.HasValue)
+            {
+                var ticket = db.Tickets.Find(id);
+                if (ticket != null)
+                {
+                    db.Tickets.Remove(ticket);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

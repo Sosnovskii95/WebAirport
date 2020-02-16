@@ -4,10 +4,6 @@
 @{
     ViewBag.Title = "Список билетов";
 }
-
-@{
-    ViewBag.Title = "Билеты";
-}
 <div>
     @Html.ActionLink("Добавить билет", "Create")
 </div>
@@ -15,28 +11,31 @@
 
 <h2>Управление билетами</h2>
 
-<table>
-    <tr>
-        <td>Фамилия и Имя</td>
-        <td>Отчество</td>
-        <td>Паспортные данные</td>
-        <td>Должность</td>
-        <td>Место в самолете</td>
-        <td>Стоимость перелета</td>
-    </tr>
-    @foreach (var ticket in Model)
-    {
+<div>
+    <table>
         <tr>
-            <td>@ticket.FirstNamePassenger</td>
-            <td>@ticket.LastNamePassenger</td>
-            <td>@ticket.Passport</td>
-            <td>@ticket.PositionPassenger</td>
-            <td>@ticket.Seat</td>
-            <td>@ticket.Price</td>
-            <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
+            <td>Фамилия и Имя</td>
+            <td>Отчество</td>
+            <td>Паспортные данные</td>
+            <td>Должность</td>
+            <td>Место в самолете</td>
+            <td>Стоимость перелета</td>
         </tr>
-    }
-</table>
+        @foreach (var ticket in Model)
+        {
+            <tr>
+                <td>@ticket.FirstNamePassenger</td>
+                <td>@ticket.LastNamePassenger</td>
+                <td>@ticket.Passport</td>
+                <td>@ticket.PositionPassenger</td>
+                <td>@ticket.Seat</td>
+                <td>@ticket.Price</td>
+                <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
+                <td>@Html.ActionLink("Удалить", "Delete", new { ticket.Id })</td>
+            </tr>
+        }
+    </table>
+</div>
 
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 

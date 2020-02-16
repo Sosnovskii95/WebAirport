@@ -41,7 +41,7 @@ namespace WebAirport.Controllers
 
         public ActionResult Edit(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 var staff = db.Staffs.Find(id);
 
@@ -62,6 +62,57 @@ namespace WebAirport.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var staff = db.Staffs.Find(id);
+
+            if (staff != null)
+            {
+                var count = db.JobAirplanes.Where(s => s.StaffId == id).FirstOrDefault();
+                if (db.JobAirplanes.Where(s => s.StaffId == id).Count() > 0)
+                {
+                    var flightsList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
+                                                 Where(s => s.StaffId == id).FirstOrDefault()).ToList();
+                    ViewBag.staffsList = db.Staffs.Select(s => new
+                    {
+                        Id = s.Id,
+                        Description = s.FirstNameStaff + " " + s.LastNameStaff
+                    }).ToList();
+                    ViewBag.currentStaff = staff;
+
+                    return View(flightsList);
+                }
+                else
+                {
+                    db.Staffs.Remove(staff);
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int currentId, List<int> id, List<int> staffId)
+        {
+            if (id != null && staffId != null)
+            {
+                for (int i = 0; i < id.Count; i++)
+                {
+                    if (staffId[i] != currentId)
+                    {
+                        var jobAirplane = db.JobAirplanes.Where(s => s.StaffId == currentId).FirstOrDefault();
+
+                        jobAirplane.StaffId = staffId[i];
+                        db.Entry(jobAirplane).State = EntityState.Modified;
+                    }
+                }
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Delete", new { currentId });
         }
     }
 }
