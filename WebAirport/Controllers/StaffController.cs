@@ -64,30 +64,33 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            var staff = db.Staffs.Find(id);
-
-            if (staff != null)
+            if (id.HasValue)
             {
-                var count = db.JobAirplanes.Where(s => s.StaffId == id).FirstOrDefault();
-                if (db.JobAirplanes.Where(s => s.StaffId == id).Count() > 0)
-                {
-                    var flightsList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
-                                                 Where(s => s.StaffId == id).FirstOrDefault()).ToList();
-                    ViewBag.staffsList = db.Staffs.Select(s => new
-                    {
-                        Id = s.Id,
-                        Description = s.FirstNameStaff + " " + s.LastNameStaff
-                    }).ToList();
-                    ViewBag.currentStaff = staff;
+                var staff = db.Staffs.Find(id);
 
-                    return View(flightsList);
-                }
-                else
+                if (staff != null)
                 {
-                    db.Staffs.Remove(staff);
-                    db.SaveChanges();
+                    var count = db.JobAirplanes.Where(s => s.StaffId == id).FirstOrDefault();
+                    if (db.JobAirplanes.Where(s => s.StaffId == id).Count() > 0)
+                    {
+                        var flightsList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
+                                                     Where(s => s.StaffId == id).FirstOrDefault()).ToList();
+                        ViewBag.staffsList = db.Staffs.Select(s => new
+                        {
+                            Id = s.Id,
+                            Description = s.FirstNameStaff + " " + s.LastNameStaff
+                        }).ToList();
+                        ViewBag.currentStaff = staff;
+
+                        return View(flightsList);
+                    }
+                    else
+                    {
+                        db.Staffs.Remove(staff);
+                        db.SaveChanges();
+                    }
                 }
             }
 

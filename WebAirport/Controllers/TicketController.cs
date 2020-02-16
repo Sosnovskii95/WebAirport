@@ -83,7 +83,7 @@ namespace WebAirport.Controllers
 
         public ActionResult Delete(int? id)
         {
-            if(id.HasValue)
+            if (id.HasValue)
             {
                 var ticket = db.Tickets.Find(id);
                 if (ticket != null)

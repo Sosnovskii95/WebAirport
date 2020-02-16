@@ -88,25 +88,28 @@ namespace WebAirport.Controllers
             }
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            var airplane = db.Airplanes.Find(id);
-
-            if (airplane != null)
+            if (id.HasValue)
             {
-                if (db.JobAirplanes.Where(a => a.AirplaneId == id).Count() > 0)
-                {
-                    var flightList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
-                                                Where(a => a.AirplaneId == id).FirstOrDefault()).ToList();
-                    ViewBag.airplaneList = db.Airplanes.ToList();
-                    ViewBag.currentAirplane = airplane;
+                var airplane = db.Airplanes.Find(id);
 
-                    return View(flightList);
-                }
-                else
+                if (airplane != null)
                 {
-                    db.Airplanes.Remove(airplane);
-                    db.SaveChanges();
+                    if (db.JobAirplanes.Where(a => a.AirplaneId == id).Count() > 0)
+                    {
+                        var flightList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
+                                                    Where(a => a.AirplaneId == id).FirstOrDefault()).ToList();
+                        ViewBag.airplaneList = db.Airplanes.ToList();
+                        ViewBag.currentAirplane = airplane;
+
+                        return View(flightList);
+                    }
+                    else
+                    {
+                        db.Airplanes.Remove(airplane);
+                        db.SaveChanges();
+                    }
                 }
             }
 
