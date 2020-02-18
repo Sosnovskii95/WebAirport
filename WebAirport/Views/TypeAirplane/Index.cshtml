@@ -3,32 +3,49 @@
 @{
     ViewBag.Title = "Типы самолетов";
 }
-<div>
-    @Html.ActionLink("Добавить тип самолета", "Create")
+
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список типов самолетов</h2>
+    </div>
 </div>
 
-<h2>Список типов самолетов</h2>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить тип самолета", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>Название типа</label>
+            <input type="text" name="TypeSearch" value="@ViewBag.TypeSearch" />
+            <input type="submit" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 
-<div>
-    <table>
-        <tr>
-            <td>Название типа</td>
-            <td>Назначение</td>
-            <td>Ограничения</td>
-        </tr>
-        @foreach (var typeA in Model)
-        {
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@typeA.NameType</td>
-                <td>@typeA.Appointment</td>
-                <td>@typeA.Limitation</td>
-                <td>@Html.ActionLink("Редактировать", "Edit", new { typeA.Id })</td>
-                <td>@Html.ActionLink("Удалить", "Delete", new { typeA.Id })</td>
+                <th>Название типа</th>
+                <th>Назначение</th>
+                <th>Ограничения</th>
+                <th colspan="2">Функции</th>
             </tr>
-        }
-    </table>
+            @foreach (var typeA in Model)
+            {
+                <tr>
+                    <td>@typeA.NameType</td>
+                    <td>@typeA.Appointment</td>
+                    <td>@typeA.Limitation</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { typeA.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { typeA.Id })</td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.TypeSearch }))

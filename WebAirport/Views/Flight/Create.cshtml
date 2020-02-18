@@ -8,62 +8,66 @@
 </div>
 
 <h2>Добавление рейса</h2>
-@Html.ValidationSummary(true)
-<div>
-    <form method="post">
-        <table>
-            <tr>
-                <td>Дата и время вылета</td>
-                <td>
-                    @Html.EditorFor(model => model.DateTimeFlight)
-                    @Html.ValidationMessageFor(model => model.DateTimeFlight)
-                </td>
-            </tr>
-            <tr>
-                <td>Пункт вылета</td>
-                <td>
-                    @Html.EditorFor(model => model.DeparturePoint)
-                    @Html.ValidationMessageFor(model => model.DeparturePoint)
-                </td>
-            </tr>
-            <tr>
-                <td>Пункт назначения</td>
-                <td>
-                    @Html.EditorFor(model => model.Destination)
-                    @Html.ValidationMessageFor(model => model.Destination)
-                </td>
-            </tr>
-            <tr>
-                <td>Время в полете</td>
-                <td>
-                    @Html.EditorFor(model => model.TimeInFlight)
-                    @Html.ValidationMessageFor(model => model.TimeInFlight)
-                </td>
-            </tr>
-            <tr>
-                <td>Тип самолета</td>
-                <td>
-                    @Html.DropDownList("TypeAirplaneId", ViewBag.TypeAirplane as SelectList)
-                </td>
-            </tr>
-            <tr>
-                <td>Самолет</td>
-                <td>
-                    @Html.DropDownListFor(model => model.JobAirplane.AirplaneId, ViewBag.Airplane as SelectList)
-                    @Html.ValidationMessageFor(model => model.JobAirplane.AirplaneId)
-                </td>
-            </tr>
-            <tr>
-                <td>Пилот</td>
-                <td>
-                    @Html.DropDownListFor(model => model.JobAirplane.StaffId, ViewBag.Staff as SelectList)
-                    @Html.ValidationMessageFor(model => model.JobAirplane.StaffId)
-                </td>
-            </tr>
-        </table>
-        <input type="submit" value="Добавить" />
-    </form>
+
+<div class="row">
+    @Html.ValidationSummary(true)
+    <div class="col-md-8">
+        <form method="post">
+            <table class="table">
+                <tr>
+                    <th>Дата и время вылета</th>
+                    <td>
+                        @Html.Editor("DateTimeFlight", new { htmlAttributes = new { @type = "datetime-local" } })
+                        @Html.ValidationMessageFor(model => model.DateTimeFlight)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Пункт вылета</th>
+                    <td>
+                        @Html.EditorFor(model => model.DeparturePoint)
+                        @Html.ValidationMessageFor(model => model.DeparturePoint)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Пункт назначения</th>
+                    <td>
+                        @Html.EditorFor(model => model.Destination)
+                        @Html.ValidationMessageFor(model => model.Destination)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Время в полете</th>
+                    <td>
+                        @Html.Editor("TimeInFlight", new { htmlAttributes = new { @type = "time" } })
+                        @Html.ValidationMessageFor(model => model.TimeInFlight)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Тип самолета</th>
+                    <td>
+                        @Html.DropDownList("TypeAirplaneId", ViewBag.TypeAirplane as SelectList)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Самолет</th>
+                    <td>
+                        @Html.DropDownListFor(model => model.JobAirplane.AirplaneId, ViewBag.Airplane as SelectList)
+                        @Html.ValidationMessageFor(model => model.JobAirplane.AirplaneId)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Пилот</th>
+                    <td>
+                        @Html.DropDownListFor(model => model.JobAirplane.StaffId, ViewBag.Staff as SelectList)
+                        @Html.ValidationMessageFor(model => model.JobAirplane.StaffId)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Добавить" />
+        </form>
+    </div>
 </div>
+
 @Scripts.Render("~/scripts/jquery-3.4.1.min.js")
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 @section Scripts{

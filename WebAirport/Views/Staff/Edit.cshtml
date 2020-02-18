@@ -9,83 +9,74 @@
 </div>
 
 <h2>Редактирование сотрудника</h2>
-@Html.ValidationSummary(true)
-<div>
-    <form method="post">
-        <table>
-            @Html.HiddenFor(model => model.Id)
-            <tr>
-                <td>Фамилия Имя</td>
-                <td>
-                    @Html.EditorFor(model => model.FirstNameStaff)
-                    @Html.ValidationMessageFor(model => model.FirstNameStaff)
-                </td>
-            </tr>
-            <tr>
-                <td>Отчество</td>
-                <td>
-                    @Html.EditorFor(model => model.LastNameStaff)
-                    @Html.ValidationMessageFor(model => model.LastNameStaff)
-                </td>
-            </tr>
-            <tr>
-                <td>Пол</td>
-                <td>
-                    <select name="Gender">
-                        @if (Model.Gender == "Мужской")
-                        {
-                            <option selected="selected">Мужской</option>
-                        }
-                        else
-                        {
-                            <option>Мужской</option>
-                        }
-                        @if (Model.Gender == "Женский")
-                        {
-                            <option selected="selected">Женский</option>
-                        }
-                        else
-                        {
-                            <option>Женский</option>
-                        }
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td>Адрес</td>
-                <td>
-                    @Html.EditorFor(model => model.Address)
-                    @Html.ValidationMessageFor(model => model.Address)
-                </td>
-            </tr>
-            <tr>
-                <td>Телефон</td>
-                <td>
-                    @Html.EditorFor(model => model.Telephone)
-                    @Html.ValidationMessageFor(model => model.Telephone)
-                </td>
-            </tr>
-            <tr>
-                <td>Паспорт</td>
-                <td>
-                    @Html.EditorFor(model => model.Passport)
-                    @Html.ValidationMessageFor(model => model.Passport)
-                </td>
-            </tr>
-            <tr>
-                <td>Должность</td>
-                <td>
-                    @Html.DropDownListFor(model => model.PositionId, ViewBag.Positions as SelectList)
-                    @Html.ValidationMessageFor(model => model.PositionId)
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Сохранить изменения" />
-                </td>
-            </tr>
-        </table>
-    </form>
+<div class="row">
+    @Html.ValidationSummary(true)
+    <div class="col-md-6">
+        <form method="post">
+            <table class="table">
+                @Html.HiddenFor(model => model.Id)
+                <tr>
+                    <th>Фамилия Имя Отчество</th>
+                    <td>
+                        @Html.EditorFor(model => model.FIOStaff)
+                        @Html.ValidationMessageFor(model => model.FIOStaff)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Пол</th>
+                    <td>
+                        <select name="Gender">
+                            @if (Model.Gender == "Мужской")
+                            {
+                                <option selected="selected">Мужской</option>
+                            }
+                            else
+                            {
+                                <option>Мужской</option>
+                            }
+                            @if (Model.Gender == "Женский")
+                            {
+                                <option selected="selected">Женский</option>
+                            }
+                            else
+                            {
+                                <option>Женский</option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Адрес</th>
+                    <td>
+                        @Html.EditorFor(model => model.Address)
+                        @Html.ValidationMessageFor(model => model.Address)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Телефон</th>
+                    <td>
+                        @Html.EditorFor(model => model.Telephone)
+                        @Html.ValidationMessageFor(model => model.Telephone)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Паспорт</th>
+                    <td>
+                        @Html.EditorFor(model => model.Passport)
+                        @Html.ValidationMessageFor(model => model.Passport)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Должность</th>
+                    <td>
+                        @Html.DropDownListFor(model => model.PositionId, ViewBag.Positions as SelectList)
+                        @Html.ValidationMessageFor(model => model.PositionId)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Сохранить изменения" onclick="return confirm('Сохранить изменения?')" />
+        </form>
+    </div>
 </div>
 
 @section Scripts{

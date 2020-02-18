@@ -14,13 +14,41 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string fioStaff, string address)
         {
-            var listStaff = db.Staffs.
-                Include(s => s.Position).ToList();
+            List<Staff> staffList = null; ;
             int pageSize = 30;
             int pageNumber = (page ?? 1);
-            return View(listStaff.ToPagedList(pageNumber, pageSize));
+
+            if (fioStaff != null && !fioStaff.Equals("") && address != null && !address.Equals(""))
+            {
+                staffList = db.Staffs.Include(p => p.Position).
+                                      Where(f => f.FIOStaff.Contains(fioStaff)).
+                                      Where(a => a.Address.Contains(address)).
+                                      ToList();
+                ViewBag.FIOStaff = fioStaff;
+                ViewBag.Address = address;
+            }
+            else if (fioStaff != null && !fioStaff.Equals(""))
+            {
+                staffList = db.Staffs.Include(p => p.Position).
+                                      Where(f => f.FIOStaff.Contains(fioStaff)).
+                                      ToList();
+                ViewBag.FIOStaff = fioStaff;
+            }
+            else if (address != null && !address.Equals(""))
+            {
+                staffList = db.Staffs.Include(p => p.Position).
+                                      Where(a => a.Address.Contains(address)).
+                                      ToList();
+                ViewBag.Address = address;
+            }
+            else
+            {
+                staffList = db.Staffs.Include(p => p.Position).ToList();
+            }
+
+            return View(staffList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -33,8 +61,11 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Create(Staff staff)
         {
-            db.Staffs.Add(staff);
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                db.Staffs.Add(staff);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -58,8 +89,11 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Edit(Staff staff)
         {
-            db.Entry(staff).State = EntityState.Modified;
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                db.Entry(staff).State = EntityState.Modified;
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -72,16 +106,11 @@ namespace WebAirport.Controllers
 
                 if (staff != null)
                 {
-                    var count = db.JobAirplanes.Where(s => s.StaffId == id).FirstOrDefault();
                     if (db.JobAirplanes.Where(s => s.StaffId == id).Count() > 0)
                     {
                         var flightsList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
                                                      Where(s => s.StaffId == id).FirstOrDefault()).ToList();
-                        ViewBag.staffsList = db.Staffs.Select(s => new
-                        {
-                            Id = s.Id,
-                            Description = s.FirstNameStaff + " " + s.LastNameStaff
-                        }).ToList();
+                        ViewBag.staffsList = db.Staffs.ToList();
                         ViewBag.currentStaff = staff;
 
                         return View(flightsList);

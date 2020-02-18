@@ -10,30 +10,32 @@
 
 <h2>Список связанных самолетов с выбранным типом</h2>
 
-<div>
-    <form method="post">
-        <p>
-            Выбранный тип самолета на удаление: @ViewBag.currentTypeAirplane.NameType
-            <input type="text" hidden name="currentId" value="@ViewBag.currentTypeAirplane.Id" />
-        </p>
-        <table>
-            <tr>
-                <td>Модель</td>
-                <td>Спецификация</td>
-                <td>Количество часов налета</td>
-                <td>Замена типа самолета</td>
-            </tr>
-            @foreach (var air in Model)
-            {
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <p>
+                Выбранный тип самолета на удаление: @ViewBag.currentTypeAirplane.NameType
+                <input type="text" hidden name="currentId" value="@ViewBag.currentTypeAirplane.Id" />
+            </p>
+            <table class="table table-bordered table-hover">
                 <tr>
-                    @Html.HiddenFor(model => air.Id)
-                    <td>@air.Model</td>
-                    <td>@air.Specifications</td>
-                    <td>@air.FlyingHours</td>
-                    <td>@Html.DropDownList("TypeAirplaneId", new SelectList(ViewBag.typeAirplanesList, "Id", "NameType", ViewBag.currentTypeAirplane.Id))</td>
+                    <th>Модель</th>
+                    <th>Спецификация</th>
+                    <th>Количество часов налета</th>
+                    <th>Замена типа самолета</th>
                 </tr>
-            }
-        </table>
-        <input type="submit" value="Сохранить изменения" />
-    </form>
+                @foreach (var air in Model)
+                {
+                    <tr>
+                        @Html.HiddenFor(model => air.Id)
+                        <td>@air.Model</td>
+                        <td>@air.Specifications</td>
+                        <td>@air.FlyingHours</td>
+                        <td>@Html.DropDownList("TypeAirplaneId", new SelectList(ViewBag.typeAirplanesList, "Id", "NameType", ViewBag.currentTypeAirplane.Id))</td>
+                    </tr>
+                }
+            </table>
+            <input type="submit" value="Сохранить изменения" onclick="return confirm('Сохранить изменения и удалить?')" />
+        </form>
+    </div>
 </div>

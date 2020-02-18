@@ -11,33 +11,32 @@
 
 <h2>Список связанных сотрудников с выбранной должностью</h2>
 
-<div>
-    @Html.ValidationSummary(true)
-    <form method="post">
-        <p>
-            Выбранная должность для удаления: @ViewBag.currentPosition.JobTitle
-            <input type="text" hidden value="@ViewBag.currentPosition.Id" name="currentId" />
-        </p>
-        <table>
-            <tr>
-                <td>Фамилия Имя</td>
-                <td>Отчество</td>
-                <td>Текущая должность</td>
-                <td>замена должности</td>
-            </tr>
-            @foreach (var staff in Model)
-            {
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <p>
+                Выбранная должность для удаления: @ViewBag.currentPosition.JobTitle
+                <input type="text" hidden value="@ViewBag.currentPosition.Id" name="currentId" />
+            </p>
+            <table class="table table-bordered table-hover">
                 <tr>
-                    @Html.HiddenFor(model => staff.Id, new { Name = "Id" })
-                    <td>@staff.FirstNameStaff</td>
-                    <td>@staff.LastNameStaff</td>
-                    <td>@staff.Position.JobTitle</td>
-                    <td>
-                        @Html.DropDownList("PositionId", new SelectList(ViewBag.positionsList, "Id", "JobTitle", ViewBag.currentPosition.Id))
-                    </td>
+                    <th>Фамилия Имя Отчество</th>
+                    <th>Текущая должность</th>
+                    <th>Замена должности</th>
                 </tr>
-            }
-        </table>
-        <input type="submit" value="Сохранить изменения" />
-    </form>
+                @foreach (var staff in Model)
+                {
+                    <tr>
+                        @Html.HiddenFor(model => staff.Id, new { Name = "Id" })
+                        <td>@staff.FIOStaff</td>
+                        <td>@staff.Position.JobTitle</td>
+                        <td>
+                            @Html.DropDownList("PositionId", new SelectList(ViewBag.positionsList, "Id", "JobTitle", ViewBag.currentPosition.Id))
+                        </td>
+                    </tr>
+                }
+            </table>
+            <input type="submit" value="Сохранить изменения" onclick="return confirm('Сохранить изменения и удалить?')" />
+        </form>
+    </div>
 </div>

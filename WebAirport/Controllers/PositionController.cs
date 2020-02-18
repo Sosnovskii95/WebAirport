@@ -14,12 +14,23 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string jobTitle)
         {
-            var listPosition = db.Positions.ToList();
             int pageSize = 30;
             int pageNumber = (page ?? 1);
-            return View(listPosition.ToPagedList(pageNumber, pageSize));
+            List<Position> positionList = null;
+
+            if (jobTitle != null && !jobTitle.Equals(""))
+            {
+                positionList = db.Positions.Where(p => p.JobTitle.Contains(jobTitle)).ToList();
+                ViewBag.JobTitle = jobTitle;
+            }
+            else
+            {
+                positionList = db.Positions.ToList();
+            }
+
+            return View(positionList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -30,8 +41,11 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Create(Position position)
         {
-            db.Positions.Add(position);
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                db.Positions.Add(position);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }
@@ -56,12 +70,8 @@ namespace WebAirport.Controllers
             {
                 db.Entry(position).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            else
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int? id)

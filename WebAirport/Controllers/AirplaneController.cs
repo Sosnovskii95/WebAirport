@@ -14,11 +14,28 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
         // GET: Airplane
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, int? typeAirplaneId)
         {
             int pageSize = 30;
             int pageNumber = (page ?? 1);
-            var airplaneList = db.Airplanes.Include(t => t.TypeAirplane).ToList();
+
+            IEnumerable<Airplane> airplaneList = null;
+            if (typeAirplaneId != null && typeAirplaneId != 0)
+            {
+                airplaneList = db.Airplanes.
+                    Include(t => t.TypeAirplane).
+                    Where(t => t.TypeAirplaneId == typeAirplaneId).ToList();
+            }
+            else
+            {
+                airplaneList = db.Airplanes.
+                    Include(t => t.TypeAirplane).ToList();
+            }
+
+            var typeAirplane = db.TypeAirplanes.ToList();
+            typeAirplane.Insert(0, new TypeAirplane { Id = 0, NameType = "Все" });
+            ViewBag.TypeAirplane = new SelectList(typeAirplane, "Id", "NameType");
+
             return View(airplaneList.ToPagedList(pageNumber, pageSize));
         }
 
@@ -44,9 +61,9 @@ namespace WebAirport.Controllers
             {
                 db.Airplanes.Add(airplane);
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-            return HttpNotFound();
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult Edit(int? id)
@@ -79,13 +96,9 @@ namespace WebAirport.Controllers
             {
                 db.Entry(airplane).State = EntityState.Modified;
                 db.SaveChanges();
+            }
 
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return HttpNotFound();
-            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int? id)

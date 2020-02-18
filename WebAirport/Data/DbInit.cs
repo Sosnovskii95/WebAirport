@@ -14,21 +14,22 @@ namespace WebAirport.Data
             Random random = new Random(1);
             for (int i = 0; i < max; i++)
             {
+                int rand = random.Next(0, 4);
+
+                var position = getPosition(rand);
+                db.Positions.Add(position);
+
+                var typeAirplane = getTypeAirplane(rand);
+                db.TypeAirplanes.Add(typeAirplane);
+
+
+                var airplane = getAirplane(rand, typeAirplane);
+                db.Airplanes.Add(airplane);
+
                 for (int j = 0; j < 10; j++)
                 {
-                    int rand = random.Next(0, 4);
-
-                    var position = getPosition(rand);
-                    db.Positions.Add(position);
-
-                    var typeAirplane = getTypeAirplane(rand);
-                    db.TypeAirplanes.Add(typeAirplane);
-
                     var staff = getStaff(rand, position);
                     db.Staffs.Add(staff);
-
-                    var airplane = getAirplane(rand, typeAirplane);
-                    db.Airplanes.Add(airplane);
 
                     var jobAirplane = getJobAirplane(airplane, staff);
                     db.JobAirplanes.Add(jobAirplane);
@@ -38,11 +39,13 @@ namespace WebAirport.Data
 
                     for (int k = 0; k < 10; k++)
                     {
+                        rand = random.Next(0, 4);
                         db.Tickets.Add(getTicket(rand, flight));
                     }
                 }
-                db.SaveChanges();
+
             }
+            db.SaveChanges();
         }
 
         private static Position getPosition(int rand)
@@ -68,17 +71,15 @@ namespace WebAirport.Data
 
         private static Staff getStaff(int rand, Position position)
         {
-            string[] FirsNameStaff = { "Воробьев Алексей", "Лемешенко Алексей", "Корнеев Дмитрий", "Щиров Игорь" };
-            string[] LastNameStaff = { "Викторович", "Александрович", "Юрьевич", "Леонидович" };
-            string Gender = "male";
+            string[] FIOStaff = { "Воробьев Алексей Викторович", "Лемешенко Алексей Александрович", "Корнеев Дмитрий Юрьевич", "Щиров Игорь Леонидович" };
+            string Gender = "Мужской";
             string[] Address = { "Гомель, ул. Сухого, д. ", "Гомель, ул. Советская, д. ", "Гомель, ул. Пенязькова, д. ", "Гомель, ул. Ирининская, д. " };
             string[] Telephone = { "375445553344", "375299791175", "375336336741", "375259866240" };
             string[] Passport = { "есть", "нет", "иностранный", "двойное гражданство" };
 
             Staff staff = new Staff
             {
-                FirstNameStaff = FirsNameStaff[rand],
-                LastNameStaff = LastNameStaff[rand],
+                FIOStaff = FIOStaff[rand],
                 Gender = Gender,
                 Address = Address[rand] + rand + 1,
                 Telephone = Telephone[rand],
@@ -162,18 +163,16 @@ namespace WebAirport.Data
 
         private static Ticket getTicket(int rand, Flight flight)
         {
-            string[] FirstNamePassenger = { "Бобров Игорь", "Велецкий Станислав", "Миньков Валентин", "Иванаускас Ксения" };
-            string[] LastNamePassenger = { "Валерьевич", "Михайлович", "Виктровович", "Андреевна" };
-            string Passport = "есть";
+            string[] FIOPassenger = { "Бобров Игорь Валерьевич", "Велецкий Станислав Михайлович", "Миньков Валентин Виктровович", "Иванаускас Ксения Андреевна" };
+            string[] Passport = { "есть", "нет", "иностранный", "двойное гражданство" };
             string[] PositionPassenger = { "Охранник", "Менеджер", "Сварщик", "Программист" };
             int Seat = (rand + 1) * 2;
             double Price = 50.5 * (rand + 1.5);
 
             Ticket ticket = new Ticket
             {
-                FirstNamePassenger = FirstNamePassenger[rand],
-                LastNamePassenger = LastNamePassenger[rand],
-                Passport = Passport,
+                FIOPassenger = FIOPassenger[rand],
+                Passport = Passport[rand],
                 PositionPassenger = PositionPassenger[rand],
                 Seat = Seat,
                 Price = Price,

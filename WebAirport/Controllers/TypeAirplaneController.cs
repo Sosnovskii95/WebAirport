@@ -15,12 +15,23 @@ namespace WebAirport.Controllers
         private AirportContext db = new AirportContext();
 
         // GET: TypeAirplane
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string typeSearch)
         {
             int pageSize = 30;
             int pageNumber = (page ?? 1);
-            var listTypeAirplane = db.TypeAirplanes.ToList();
-            return View(listTypeAirplane.ToPagedList(pageNumber, pageSize));
+            List<TypeAirplane> typeAirplaneList = null;
+
+            if (typeSearch != null && !typeSearch.Equals(""))
+            {
+                typeAirplaneList = db.TypeAirplanes.Where(n => n.NameType.Contains(typeSearch)).ToList();
+                ViewBag.TypeSearch = typeSearch;
+            }
+            else
+            {
+                typeAirplaneList = db.TypeAirplanes.ToList();
+            }
+
+            return View(typeAirplaneList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -31,8 +42,11 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Create(TypeAirplane typeAirplane)
         {
-            db.TypeAirplanes.Add(typeAirplane);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                db.TypeAirplanes.Add(typeAirplane);
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
         }

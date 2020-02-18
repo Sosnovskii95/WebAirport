@@ -5,39 +5,58 @@
     ViewBag.Title = "Список сотрудников";
 }
 
-<div>
-    @Html.ActionLink("Добавить сотрудника", "Create")
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список всех сотрудников</h2>
+    </div>
 </div>
-<h2>Список всех сотрудников</h2>
-<div>
-    <table>
-        <tr>
-            <td>Фамилия Имя</td>
-            <td>Отчество</td>
-            <td>Пол</td>
-            <td>Адресс</td>
-            <td>Телефон</td>
-            <td>Пасспорт</td>
-            <td>Должность</td>
-        </tr>
-        @foreach (var s in Model)
-        {
+
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить сотрудника", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>ФИО пассажира</label>
+            <input type="text" name="FIOStaff" value="@ViewBag.FIOStaff" />
+            <label>Адрес</label>
+            <input type="text" name="Address" value="@ViewBag.Address" />
+            <input type="submit" value="Фильтровать" />
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@s.FirstNameStaff</td>
-                <td>@s.LastNameStaff</td>
-                <td>@s.Gender</td>
-                <td>@s.Address</td>
-                <td>@s.Telephone</td>
-                <td>@s.Passport</td>
-                <td>@s.Position.JobTitle</td>
-                <td>@Html.ActionLink("Редактировать", "Edit", new { s.Id })</td>
-                <td>@Html.ActionLink("Удалить", "Delete", new { s.Id })</td>
+                <th>Фамилия Имя Отчество</th>
+                <th>Пол</th>
+                <th>Адресс</th>
+                <th>Телефон</th>
+                <th>Пасспорт</th>
+                <th>Должность</th>
+                <th colspan="2">Функции</th>
             </tr>
-        }
-    </table>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.FIOStaff</td>
+                    <td>@s.Gender</td>
+                    <td>@s.Address</td>
+                    <td>@s.Telephone</td>
+                    <td>@s.Passport</td>
+                    <td>@s.Position.JobTitle</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { s.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { s.Id })</td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.FIOStaff, ViewBag.Address }))
 

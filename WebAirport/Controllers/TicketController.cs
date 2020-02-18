@@ -14,14 +14,35 @@ namespace WebAirport.Controllers
     {
         private AirportContext db = new AirportContext();
         // GET: Ticket
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string fioPassenger, string passport)
         {
-            var listTicket = db.Tickets.ToList();
+            List<Ticket> ticketList = null;
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
+            if (fioPassenger != null && !fioPassenger.Equals("") && passport != null && !passport.Equals(""))
+            {
+                ticketList = db.Tickets.Where(f => fioPassenger.Contains(fioPassenger)).
+                                        Where(p => p.Passport.Contains(passport)).ToList();
+                ViewBag.FIOPassenger = fioPassenger;
+                ViewBag.Passport = passport;
+            }
+            else if (fioPassenger != null && !fioPassenger.Equals(""))
+            {
+                ticketList = db.Tickets.Where(f => f.FIOPassenger.Contains(fioPassenger)).ToList();
+                ViewBag.FIOPassenger = fioPassenger;
+            }
+            else if (passport != null && !passport.Equals(""))
+            {
+                ticketList = db.Tickets.Where(p => p.Passport.Contains(passport)).ToList();
+                ViewBag.Passport = passport;
+            }
+            else
+            {
+                ticketList = db.Tickets.ToList();
+            }
 
-            return View(listTicket.ToPagedList(pageNumber, pageSize));
+            return View(ticketList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -38,10 +59,13 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Create(Ticket ticket)
         {
-            db.Tickets.Add(ticket);
-            db.SaveChanges();
+            if(ModelState.IsValid)
+            {
+                db.Tickets.Add(ticket);
+                db.SaveChanges();
+            }
 
-            return null;
+            return RedirectToAction("Index");
         }
 
         public ActionResult SelectedFlight(int id)
@@ -72,13 +96,14 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public void Edit(Ticket ticket)
+        public ActionResult Edit(Ticket ticket)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
             }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int? id)

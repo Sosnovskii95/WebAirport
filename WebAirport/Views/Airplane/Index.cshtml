@@ -4,39 +4,57 @@
 @{
     ViewBag.Title = "Парк самолетов";
 }
-
-<div>
-    @Html.ActionLink("Добавить новый самолет", "Create")
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список самолетов</h2>
+    </div>
 </div>
-<h2>Список самолетов</h2>
 
-<table>
-    <tr>
-        <td>Модель</td>
-        <td>Вместимость пассажиров</td>
-        <td>Грузоподъемность</td>
-        <td>Спецификация</td>
-        <td>Налетано часов</td>
-        <td>Дата создания</td>
-        <td>Дата последнего ремонта</td>
-        <td>Тип самолета</td>
-    </tr>
-    @foreach (var air in Model)
-    {
-        <tr>
-            <td>@air.Model</td>
-            <td>@air.PessengerCapacity</td>
-            <td>@air.CarryingCapacity</td>
-            <td>@air.Specifications</td>
-            <td>@air.FlyingHours</td>
-            <td>@String.Format("{0:dd.MM.yyyy}", air.ReleaseDate)</td>
-            <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
-            <td>@air.TypeAirplane.NameType</td>
-            <td>@Html.ActionLink("Редактировать", "Edit", new { air.Id })</td>
-            <td>@Html.ActionLink("Удалить", "Delete", new { air.Id })</td>
-        </tr>
-    }
-</table>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить новый самолет", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>Тип самолета</label>
+            @Html.DropDownList("TypeAirplaneId", ViewBag.TypeAirplane as SelectList)
+            <input type="submit" value="Фильтровать" class="" />
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Модель</th>
+                <th>Вместимость пассажиров</th>
+                <th>Грузоподъемность</th>
+                <th>Спецификация</th>
+                <th>Налетано часов</th>
+                <th>Дата создания</th>
+                <th>Дата последнего ремонта</th>
+                <th>Тип самолета</th>
+                <th colspan="2">Функции</th>
+            </tr>
+            @foreach (var air in Model)
+            {
+                <tr>
+                    <td>@air.Model</td>
+                    <td>@air.PessengerCapacity</td>
+                    <td>@air.CarryingCapacity</td>
+                    <td>@air.Specifications</td>
+                    <td>@air.FlyingHours</td>
+                    <td>@String.Format("{0:dd.MM.yyyy}", air.ReleaseDate)</td>
+                    <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
+                    <td>@air.TypeAirplane.NameType</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { air.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { air.Id })</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 

@@ -4,42 +4,57 @@
 @{
     ViewBag.Title = "Список билетов";
 }
-<div>
-    @Html.ActionLink("Добавить билет", "Create")
+
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список билетов</h2>
+    </div>
 </div>
 
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить билет", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>ФИО пассажира</label>
+            <input type="text" name="FioPassenger" value="@ViewBag.FIOPassenger" />
+            <label>Пасспорт</label>
+            <input type="text" name="Passport" value="@ViewBag.Passport" />
+            <input type="submit" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 
-<h2>Управление билетами</h2>
-
-<div>
-    <table>
-        <tr>
-            <td>Фамилия и Имя</td>
-            <td>Отчество</td>
-            <td>Паспортные данные</td>
-            <td>Должность</td>
-            <td>Место в самолете</td>
-            <td>Стоимость перелета</td>
-        </tr>
-        @foreach (var ticket in Model)
-        {
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@ticket.FirstNamePassenger</td>
-                <td>@ticket.LastNamePassenger</td>
-                <td>@ticket.Passport</td>
-                <td>@ticket.PositionPassenger</td>
-                <td>@ticket.Seat</td>
-                <td>@ticket.Price</td>
-                <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
-                <td>@Html.ActionLink("Удалить", "Delete", new { ticket.Id })</td>
+                <th>Фамилия Имя Отчество</th>
+                <th>Паспортные данные</th>
+                <th>Должность</th>
+                <th>Место в самолете</th>
+                <th>Стоимость перелета</th>
+                <th colspan="2">Функции</th>
             </tr>
-        }
-    </table>
+            @foreach (var ticket in Model)
+            {
+                <tr>
+                    <td>@ticket.FIOPassenger</td>
+                    <td>@ticket.Passport</td>
+                    <td>@ticket.PositionPassenger</td>
+                    <td>@ticket.Seat</td>
+                    <td>@ticket.Price</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { ticket.Id } , new { onclick = "return confirm('Удалить?');"})</td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
-
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.FIOPassenger, ViewBag.Passport }))
 
 
 

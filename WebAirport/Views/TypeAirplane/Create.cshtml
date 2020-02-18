@@ -8,39 +8,36 @@
 </div>
 
 <h2>Добавление нового типа самолета</h2>
-
-@Html.ValidationSummary(true)
-<div>
-    <form method="post">
-        <table>
-            <tr>
-                <td>Название типа</td>
-                <td>
-                    @Html.EditorFor(model => model.NameType)
-                    @Html.ValidationMessageFor(model => model.NameType)
-                </td>
-            </tr>
-            <tr>
-                <td>Назначение</td>
-                <td>
-                    @Html.EditorFor(model => model.Appointment)
-                    @Html.ValidationMessageFor(model => model.Appointment)
-                </td>
-            </tr>
-            <tr>
-                <td>Лимиты</td>
-                <td>
-                    @Html.EditorFor(model => model.Limitation)
-                    @Html.ValidationMessageFor(model => model.Limitation)
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Добавить" />
-                </td>
-            </tr>
-        </table>
-    </form>
+<div class="row">
+    @Html.ValidationSummary(true)
+    <div class="col-md-8">
+        <form method="post">
+            <table class="table">
+                <tr>
+                    <th>Название типа</th>
+                    <td>
+                        @Html.EditorFor(model => model.NameType)
+                        @Html.ValidationMessageFor(model => model.NameType)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Назначение</th>
+                    <td>
+                        @Html.EditorFor(model => model.Appointment)
+                        @Html.ValidationMessageFor(model => model.Appointment)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Лимиты</th>
+                    <td>
+                        @Html.EditorFor(model => model.Limitation)
+                        @Html.ValidationMessageFor(model => model.Limitation)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Добавить" />
+        </form>
+    </div>
 </div>
 
 @section Scripts{

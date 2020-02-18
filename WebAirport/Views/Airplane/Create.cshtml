@@ -9,81 +9,79 @@
 </div>
 
 <h2>Добавление самолета</h2>
-@Html.ValidationSummary(true)
-<div>
-    <form method="post">
 
-        <table>
-            <tr>
-                <td>Модель самолета</td>
-                <td>
-                    @Html.EditorFor(model => model.Model)
-                    @Html.ValidationMessageFor(model => model.Model)
-                </td>
-            </tr>
-            <tr>
-                <td>Вместимость пассажиров</td>
-                <td>
-                    @Html.EditorFor(model => model.PessengerCapacity)
-                    @Html.ValidationMessageFor(model => model.PessengerCapacity)
-                </td>
-            </tr>
-            <tr>
-                <td>Вместимость грузовая</td>
-                <td>
-                    @Html.EditorFor(model => model.CarryingCapacity)
-                    @Html.ValidationMessageFor(model => model.CarryingCapacity)
-                </td>
-            </tr>
-            <tr>
-                <td>Спецификация</td>
-                <td>
-                    @Html.EditorFor(model => model.Specifications)
-                    @Html.ValidationMessageFor(model => model.Specifications)
-                </td>
-            </tr>
-            <tr>
-                <td>Количество часов налета</td>
-                <td>
-                    @Html.EditorFor(model => model.FlyingHours)
-                    @Html.ValidationMessageFor(model => model.FlyingHours)
-                </td>
-            </tr>
-            <tr>
-                <td>Дата сборки</td>
-                <td>
-                    @Html.EditorFor(model => model.ReleaseDate)
-                    @Html.ValidationMessageFor(model => model.ReleaseDate)
-                </td>
-            </tr>
-            <tr>
-                <td>Дата последнего ремонта</td>
-                <td>
-                    @Html.EditorFor(model => model.LastRepairDate)
-                    @Html.ValidationMessageFor(model => model.LastRepairDate)
-                </td>
-            </tr>
-            <tr>
-                <td>Тип самолета</td>
-                <td>
-                    @if (ViewBag.TypeAirplanes != null)
-                    {
-                        @Html.DropDownListFor(model => model.TypeAirplaneId, ViewBag.TypeAirplanes as SelectList)
-                        @Html.ValidationMessageFor(model => model.TypeAirplaneId)
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Добавить", "Create", "TypeAirplane")
-                    }
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Добавить" />
-                </td>
-            </tr>
-        </table>
-    </form>
+<div class="row">
+    @Html.ValidationSummary(true)
+    <div class="col-md-8">
+        <form method="post">
+            <table class="table">
+                <tr>
+                    <th>Модель самолета</th>
+                    <td>
+                        @Html.EditorFor(model => model.Model)
+                        @Html.ValidationMessageFor(model => model.Model)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Вместимость пассажиров</th>
+                    <td>
+                        @Html.EditorFor(model => model.PessengerCapacity)
+                        @Html.ValidationMessageFor(model => model.PessengerCapacity)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Вместимость грузовая</th>
+                    <td>
+                        @Html.EditorFor(model => model.CarryingCapacity)
+                        @Html.ValidationMessageFor(model => model.CarryingCapacity)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Спецификация</th>
+                    <td>
+                        @Html.EditorFor(model => model.Specifications)
+                        @Html.ValidationMessageFor(model => model.Specifications)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Количество часов налета</th>
+                    <td>
+                        @Html.EditorFor(model => model.FlyingHours)
+                        @Html.ValidationMessageFor(model => model.FlyingHours)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Дата сборки</th>
+                    <td>
+                        @Html.EditorFor(model => model.ReleaseDate)
+                        @Html.ValidationMessageFor(model => model.ReleaseDate)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Дата последнего ремонта</th>
+                    <td>
+                        @Html.EditorFor(model => model.LastRepairDate)
+                        @Html.ValidationMessageFor(model => model.LastRepairDate)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Тип самолета</th>
+                    <td>
+                        @if (ViewBag.TypeAirplanes != null)
+                        {
+                            @Html.DropDownListFor(model => model.TypeAirplaneId, ViewBag.TypeAirplanes as SelectList)
+                            @Html.ValidationMessageFor(model => model.TypeAirplaneId)
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Добавить", "Create", "TypeAirplane")
+                        }
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Добавить" />
+        </form>
+    </div>
 </div>
 
 @section Scripts {

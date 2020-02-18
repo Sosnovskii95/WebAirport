@@ -10,46 +10,44 @@
 </div>
 
 <h2>Редактирование выбранной должности</h2>
-@Html.ValidationSummary(true)
-<div>
-    <form method="post">
-        @Html.HiddenFor(model => model.Id)
-        <table>
-            <tr>
-                <td>Название</td>
-                <td>
-                    @Html.EditorFor(model => model.JobTitle)
-                    @Html.ValidationMessageFor(model => model.JobTitle)
-                </td>
-            </tr>
-            <tr>
-                <td>Оклад</td>
-                <td>
-                    @Html.EditorFor(model => model.Salary)
-                    @Html.ValidationMessageFor(model => model.Salary)
-                </td>
-            </tr>
-            <tr>
-                <td>Обязанности</td>
-                <td>
-                    @Html.EditorFor(model => model.Responsibilities)
-                    @Html.ValidationMessageFor(model => model.Responsibilities)
-                </td>
-            </tr>
-            <tr>
-                <td>Требования</td>
-                <td>
-                    @Html.EditorFor(model => model.Requirements)
-                    @Html.ValidationMessageFor(model => model.Requirements)
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" value="Сохранить изменения" />
-                </td>
-            </tr>
-        </table>
-    </form>
+<div class="row">
+    @Html.ValidationSummary(true)
+    <div class="col-md-6">
+        <form method="post">
+            @Html.HiddenFor(model => model.Id)
+            <table class="table">
+                <tr>
+                    <th>Название</th>
+                    <td>
+                        @Html.EditorFor(model => model.JobTitle)
+                        @Html.ValidationMessageFor(model => model.JobTitle)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Оклад</th>
+                    <td>
+                        @Html.EditorFor(model => model.Salary)
+                        @Html.ValidationMessageFor(model => model.Salary)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Обязанности</th>
+                    <td>
+                        @Html.EditorFor(model => model.Responsibilities)
+                        @Html.ValidationMessageFor(model => model.Responsibilities)
+                    </td>
+                </tr>
+                <tr>
+                    <th>Требования</th>
+                    <td>
+                        @Html.EditorFor(model => model.Requirements)
+                        @Html.ValidationMessageFor(model => model.Requirements)
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Сохранить изменения" onclick="return confirm('Сохранить изменения?')" />
+        </form>
+    </div>
 </div>
 @section Scripts{
     @Scripts.Render("~/bundles/jqueryval")

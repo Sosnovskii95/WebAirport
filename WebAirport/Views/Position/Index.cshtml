@@ -4,34 +4,51 @@
 @{
     ViewBag.Title = "Список должностей";
 }
-<div>
-    @Html.ActionLink("Добавить должность", "Create")
+
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список должностей</h2>
+    </div>
 </div>
 
-<h2>Управление должностями</h2>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить должность", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>Название должности</label>
+            <input type="text" name="JobTitle" value="@ViewBag.JobTitle" />
+            <input type="submit" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 
-<div>
-    <table>
-        <tr>
-            <td>Название</td>
-            <td>Оклад</td>
-            <td>Обязанности</td>
-            <td>Требования</td>
-        </tr>
-        @foreach (var p in Model)
-        {
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
             <tr>
-                <td>@p.JobTitle</td>
-                <td>@p.Salary</td>
-                <td>@p.Responsibilities</td>
-                <td>@p.Requirements</td>
-                <td>@Html.ActionLink("Редактировать", "Edit", new { p.Id })</td>
-                <td>@Html.ActionLink("Удалить", "Delete", new { p.Id })</td>
+                <th>Название</th>
+                <th>Оклад</th>
+                <th>Обязанности</th>
+                <th>Требования</th>
+                <th colspan="2">Функции</th>
             </tr>
-        }
-    </table>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>@p.JobTitle</td>
+                    <td>@p.Salary</td>
+                    <td>@p.Responsibilities</td>
+                    <td>@p.Requirements</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { p.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { p.Id })</td>
+                </tr>
+            }
+        </table>
+    </div>
 </div>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.JobTitle }))

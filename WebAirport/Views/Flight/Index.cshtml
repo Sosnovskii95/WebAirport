@@ -5,35 +5,54 @@
     ViewBag.Title = "Список рейсов";
 }
 
-<div>
-    @Html.ActionLink("Добавить новый рейс", "Create")
+<div class="row">
+    <div class="col-md-offset-4">
+        <h2>Список рейсов</h2>
+    </div>
 </div>
 
-<h2>Список рейсов</h2>
+<div class="row">
+    <div class="col-md-6">
+        @Html.ActionLink("Добавить новый рейс", "Create")
+    </div>
+    <div class="col-md-6">
+        <form>
+            <label>Пункт вылета</label>
+            <input type="text" name="departurePoint" value="@ViewBag.departurePoint" />
+            <label>Пункт прибытия</label>
+            <input type="text" name="destination" value="@ViewBag.destination" />
+            <input type="submit" value="Фильтровать" />
+        </form>
+    </div>
+</div>
 
-<table>
-    <tr>
-        <td>Номер рейса</td>
-        <td>Дата и время рейса</td>
-        <td>Пункт вылета</td>
-        <td>Пункт назначения</td>
-        <td>Время полета</td>
-    </tr>
-    @foreach (var flight in Model)
-    {
-        <tr>
-            <td>@flight.Id</td>
-            <td>@flight.DateTimeFlight</td>
-            <td>@flight.DeparturePoint</td>
-            <td>@flight.Destination</td>
-            <td>@flight.TimeInFlight</td>
-            <td>@Html.ActionLink("Редактировать", "Edit", new { flight.Id })</td>
-            <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id })</td>
-        </tr>
-    }
-</table>
-
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-hover">
+            <tr>
+                <th>Номер рейса</th>
+                <th>Дата и время рейса</th>
+                <th>Пункт вылета</th>
+                <th>Пункт назначения</th>
+                <th>Время полета</th>
+                <th colspan="2">Функции</th>
+            </tr>
+            @foreach (var flight in Model)
+            {
+                <tr>
+                    <td>@flight.Id</td>
+                    <td>@flight.DateTimeFlight</td>
+                    <td>@flight.DeparturePoint</td>
+                    <td>@flight.Destination</td>
+                    <td>@flight.TimeInFlight</td>
+                    <td>@Html.ActionLink("Редактировать", "Edit", new { flight.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id })</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
 <br />
 Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.departurePoint, ViewBag.destination }))

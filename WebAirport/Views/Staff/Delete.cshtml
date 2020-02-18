@@ -11,34 +11,36 @@
 
 <h2>Список связанных рейсов с выбранным сотрудником</h2>
 
-<div>
-    <form method="post">
-        <p>
-            Выбранный сотрудник для удаления: @ViewBag.currentStaff.FirstNameStaff @ViewBag.currentStaff.LastNameStaff
-            <input type="text" hidden name="currentId" value="@ViewBag.currentStaff.Id" />
-        </p>
-        <table>
-            <tr>
-                <td>Дата и время полета</td>
-                <td>Пункт вылета</td>
-                <td>Пункт назначения</td>
-                <td>Время полета</td>
-                <td>Замена сотрудника</td>
-            </tr>
-            @foreach (var flight in Model)
-            {
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <p>
+                Выбранный сотрудник для удаления: @ViewBag.currentStaff.FIOStaff
+                <input type="text" hidden name="currentId" value="@ViewBag.currentStaff.Id" />
+            </p>
+            <table class="table table-bordered table-hover">
                 <tr>
-                    @Html.HiddenFor(model => flight.Id)
-                    <td>@flight.DateTimeFlight</td>
-                    <td>@flight.DeparturePoint</td>
-                    <td>@flight.Destination</td>
-                    <td>@flight.TimeInFlight</td>
-                    <td>
-                        @Html.DropDownList("StaffId", new SelectList(ViewBag.staffsList, "Id", "Description", ViewBag.currentStaff.Id))
-                    </td>
+                    <th>Дата и время полета</th>
+                    <th>Пункт вылета</th>
+                    <th>Пункт назначения</th>
+                    <th>Время полета</th>
+                    <th>Замена сотрудника</th>
                 </tr>
-            }
-        </table>
-        <input type="submit" value="Сохранить изменения" />
-    </form>
+                @foreach (var flight in Model)
+                {
+                    <tr>
+                        @Html.HiddenFor(model => flight.Id)
+                        <td>@flight.DateTimeFlight</td>
+                        <td>@flight.DeparturePoint</td>
+                        <td>@flight.Destination</td>
+                        <td>@flight.TimeInFlight</td>
+                        <td>
+                            @Html.DropDownList("StaffId", new SelectList(ViewBag.staffsList, "Id", "FIOStaff", ViewBag.currentStaff.Id))
+                        </td>
+                    </tr>
+                }
+            </table>
+            <input type="submit" value="Сохранить изменения" onclick="return confirm('Сохранить изменения и удалить?')" />
+        </form>
+    </div>
 </div>

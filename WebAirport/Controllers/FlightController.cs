@@ -15,13 +15,35 @@ namespace WebAirport.Controllers
         private AirportContext db = new AirportContext();
 
         // GET: Flight
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, string departurePoint, string destination)
         {
             int pageNumber = (page ?? 1);
             int pageSize = 30;
-            var listFlight = db.Flights.ToList();
+            List<Flight> flightList = null;
 
-            return View(listFlight.ToPagedList(pageNumber, pageSize));
+            if (departurePoint != null && destination != null && !departurePoint.Equals("") && !destination.Equals(""))
+            {
+                flightList = db.Flights.Where(d => d.DeparturePoint == departurePoint).
+                                        Where(p => p.Destination == destination).ToList();
+                ViewBag.destination = destination;
+                ViewBag.departurePoint = departurePoint;
+            }
+            else if (departurePoint != null && !departurePoint.Equals(""))
+            {
+                flightList = db.Flights.Where(d => d.DeparturePoint == departurePoint).ToList();
+                ViewBag.departurePoint = departurePoint;
+            }
+            else if (destination != null && !destination.Equals(""))
+            {
+                flightList = db.Flights.Where(d => d.Destination == destination).ToList();
+                ViewBag.destination = destination;
+            }
+            else
+            {
+                flightList = db.Flights.ToList();
+            }
+
+            return View(flightList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult Create()
@@ -29,11 +51,7 @@ namespace WebAirport.Controllers
             var typeAirplane = db.TypeAirplanes.First();
             ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType");
             ViewBag.Airplane = new SelectList(db.Airplanes.Where(t => t.TypeAirplaneId == typeAirplane.Id), "Id", "Model");
-            ViewBag.Staff = new SelectList(db.Staffs.Select(s => new
-            {
-                Id = s.Id,
-                FullNameStaff = s.FirstNameStaff + " " + s.LastNameStaff
-            }), "Id", "FullNameStaff");
+            ViewBag.Staff = new SelectList(db.Staffs, "Id", "FIOStaff");
 
             return View();
         }
@@ -54,8 +72,11 @@ namespace WebAirport.Controllers
         [HttpPost]
         public ActionResult Create(Flight flight)
         {
-            db.Flights.Add(flight);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                db.Flights.Add(flight);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
@@ -72,11 +93,7 @@ namespace WebAirport.Controllers
                                           Select(t => t.TypeAirplaneId).
                                           FirstOrDefault();
 
-                ViewBag.Staffs = new SelectList(db.Staffs.Select(s => new
-                {
-                    Id = s.Id,
-                    FullNameStaff = s.FirstNameStaff + " " + s.LastNameStaff
-                }), "Id", "FullNameStaff");
+                ViewBag.Staffs = new SelectList(db.Staffs, "Id", "FIOStaff");
                 ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType", typeId);
                 ViewBag.Airplane = new SelectList(db.Airplanes.Where(i => i.TypeAirplaneId == typeId), "Id", "Model");
                 return View(flight);
@@ -100,13 +117,9 @@ namespace WebAirport.Controllers
                 db.Entry(flight).State = EntityState.Modified;
                 db.Entry(flight.JobAirplane).State = EntityState.Modified;
                 db.SaveChanges();
+            }
 
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return RedirectToAction("Index");
-            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult Delete(int? id)
