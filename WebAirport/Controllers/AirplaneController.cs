@@ -109,10 +109,9 @@ namespace WebAirport.Controllers
 
                 if (airplane != null)
                 {
-                    if (db.JobAirplanes.Where(a => a.AirplaneId == id).Count() > 0)
+                    if (db.Flights.Where(j => j.JobAirplane.AirplaneId == id).Count() > 0)
                     {
-                        var flightList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
-                                                    Where(a => a.AirplaneId == id).FirstOrDefault()).ToList();
+                        var flightList = db.Flights.Where(j => j.JobAirplane.AirplaneId == id).ToList();
                         ViewBag.airplaneList = db.Airplanes.ToList();
                         ViewBag.currentAirplane = airplane;
 
