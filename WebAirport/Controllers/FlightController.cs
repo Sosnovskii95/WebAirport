@@ -1,21 +1,26 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using WebAirport.Data;
-using WebAirport.Models;
-using System.Data.Entity;
-using PagedList;
+using WebAirport.Models.CodeFirst;
+using X.PagedList;
 
 namespace WebAirport.Controllers
 {
     public class FlightController : Controller
     {
-        private AirportContext db = new AirportContext();
+        private AirportContext db;
 
-        // GET: Flight
-        public ActionResult Index(int? page, string departurePoint, string destination)
+        public FlightController(AirportContext context)
+        {
+            db = context;
+        }
+
+        public IActionResult Index(int? page, string departurePoint, string destination)
         {
             int pageNumber = (page ?? 1);
             int pageSize = 30;
@@ -46,7 +51,7 @@ namespace WebAirport.Controllers
             return View(flightList.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             var typeAirplane = db.TypeAirplanes.First();
             ViewBag.TypeAirplane = new SelectList(db.TypeAirplanes, "Id", "NameType");
@@ -57,7 +62,7 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult ListAirplaneByType(int id)
+        public IActionResult ListAirplaneByType(int id)
         {
             var airplanes = db.Airplanes.Where(c => c.TypeAirplaneId == id).ToList();
 
@@ -69,8 +74,13 @@ namespace WebAirport.Controllers
             return PartialView(airplanes);
         }
 
+        private IActionResult HttpNotFound()
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
-        public ActionResult Create(Flight flight)
+        public IActionResult Create(Flight flight)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +90,7 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id.HasValue)
             {
@@ -104,13 +114,13 @@ namespace WebAirport.Controllers
             }
         }
 
-        public ActionResult getAirplaneType(int id)
+        public IActionResult getAirplaneType(int id)
         {
             return PartialView(db.Airplanes.Where(t => t.TypeAirplaneId == id).ToList());
         }
 
         [HttpPost]
-        public ActionResult Edit(Flight flight)
+        public IActionResult Edit(Flight flight)
         {
             if (ModelState.IsValid)
             {
@@ -122,7 +132,7 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id.HasValue)
             {
@@ -153,7 +163,7 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int currentId, List<int> id, List<int> flightId)
+        public IActionResult Delete(int currentId, List<int> id, List<int> flightId)
         {
             if (id != null && flightId != null)
             {

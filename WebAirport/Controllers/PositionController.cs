@@ -1,20 +1,24 @@
-﻿using PagedList;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using WebAirport.Data;
-using WebAirport.Models;
+using WebAirport.Models.CodeFirst;
+using X.PagedList;
 
 namespace WebAirport.Controllers
 {
     public class PositionController : Controller
     {
-        private AirportContext db = new AirportContext();
+        private AirportContext db;
 
-        public ActionResult Index(int? page, string jobTitle)
+        public PositionController(AirportContext context)
+        {
+            db = context;
+        }
+
+        public IActionResult Index(int? page, string jobTitle)
         {
             int pageSize = 30;
             int pageNumber = (page ?? 1);
@@ -33,13 +37,13 @@ namespace WebAirport.Controllers
             return View(positionList.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(Position position)
+        public IActionResult Create(Position position)
         {
             if(ModelState.IsValid)
             {
@@ -50,7 +54,7 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id.HasValue)
             {
@@ -64,17 +68,17 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Position position)
+        public IActionResult Edit(Position position)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(position).State = EntityState.Modified;
+                db.Positions.Update(position);
                 db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id.HasValue)
             {
@@ -102,7 +106,7 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int currentId, List<int> id, List<int> positionId)
+        public IActionResult Delete(int currentId, List<int> id, List<int> positionId)
         {
             if (id != null && positionId != null)
             {
@@ -113,7 +117,7 @@ namespace WebAirport.Controllers
                         var staff = db.Staffs.Find(id[i]);
 
                         staff.PositionId = positionId[i];
-                        db.Entry(staff).State = EntityState.Modified;
+                        db.Staffs.Update(staff);
                     }
 
                 }

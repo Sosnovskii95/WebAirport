@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
-using WebAirport.Models;
+using WebAirport.Models.CodeFirst;
 using WebAirport.Data;
-using System.Data.Entity;
-using PagedList;
+using X.PagedList;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAirport.Controllers
 {
     public class StaffController : Controller
     {
-        private AirportContext db = new AirportContext();
+        private AirportContext db;
 
-        public ActionResult Index(int? page, string fioStaff, string address)
+        public StaffController(AirportContext context)
+        {
+            db = context;
+        }
+
+        public IActionResult Index(int? page, string fioStaff, string address)
         {
             List<Staff> staffList = null; ;
             int pageSize = 30;
@@ -51,7 +57,7 @@ namespace WebAirport.Controllers
             return View(staffList.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             ViewBag.Positions = new SelectList(db.Positions, "Id", "JobTitle");
 
@@ -59,9 +65,9 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Staff staff)
+        public IActionResult Create(Staff staff)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Staffs.Add(staff);
                 db.SaveChanges();
@@ -70,7 +76,7 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id.HasValue)
             {
@@ -87,9 +93,9 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Staff staff)
+        public IActionResult Edit(Staff staff)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Entry(staff).State = EntityState.Modified;
                 db.SaveChanges();
@@ -98,7 +104,7 @@ namespace WebAirport.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id.HasValue)
             {
@@ -127,7 +133,7 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int currentId, List<int> id, List<int> staffId)
+        public IActionResult Delete(int currentId, List<int> id, List<int> staffId)
         {
             if (id != null && staffId != null)
             {

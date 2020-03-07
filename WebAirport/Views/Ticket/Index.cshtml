@@ -1,5 +1,6 @@
-﻿@model PagedList.IPagedList<WebAirport.Models.Ticket>
-@using PagedList.Mvc;
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IPagedList<WebAirport.Models.CodeFirst.Ticket>
 
 @{
     ViewBag.Title = "Список билетов";
@@ -46,7 +47,7 @@
                     <td>@ticket.Seat</td>
                     <td>@ticket.Price</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { ticket.Id })</td>
-                    <td>@Html.ActionLink("Удалить", "Delete", new { ticket.Id } , new { onclick = "return confirm('Удалить?');"})</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { ticket.Id }, new { onclick = "return confirm('Удалить?');" })</td>
                 </tr>
             }
         </table>

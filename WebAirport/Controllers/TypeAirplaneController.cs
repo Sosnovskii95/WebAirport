@@ -1,21 +1,25 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 using WebAirport.Data;
-using WebAirport.Models;
-using System.Data.Entity;
-using PagedList;
+using WebAirport.Models.CodeFirst;
+using X.PagedList;
 
 namespace WebAirport.Controllers
 {
     public class TypeAirplaneController : Controller
     {
-        private AirportContext db = new AirportContext();
+        private AirportContext db;
+
+        public TypeAirplaneController(AirportContext context)
+        {
+            db = context;
+        }
 
         // GET: TypeAirplane
-        public ActionResult Index(int? page, string typeSearch)
+        public IActionResult Index(int? page, string typeSearch)
         {
             int pageSize = 30;
             int pageNumber = (page ?? 1);
@@ -34,13 +38,13 @@ namespace WebAirport.Controllers
             return View(typeAirplaneList.ToPagedList(pageNumber, pageSize));
         }
 
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(TypeAirplane typeAirplane)
+        public IActionResult Create(TypeAirplane typeAirplane)
         {
             if (ModelState.IsValid)
             {
@@ -52,7 +56,7 @@ namespace WebAirport.Controllers
         }
 
 
-        public ActionResult Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id.HasValue)
             {
@@ -66,18 +70,18 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(TypeAirplane typeAirplane)
+        public IActionResult Edit(TypeAirplane typeAirplane)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(typeAirplane).State = EntityState.Modified;
+                db.TypeAirplanes.Update(typeAirplane);
                 db.SaveChanges();
             }
 
             return RedirectToAction("Index");
         }
 
-        public ActionResult Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id.HasValue)
             {
@@ -104,7 +108,7 @@ namespace WebAirport.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int currentId, List<int> id, List<int> typeAirplaneId)
+        public IActionResult Delete(int currentId, List<int> id, List<int> typeAirplaneId)
         {
             if (id != null && typeAirplaneId != null)
             {
@@ -115,7 +119,7 @@ namespace WebAirport.Controllers
                         var airplane = db.Airplanes.Find(id[i]);
 
                         airplane.TypeAirplaneId = typeAirplaneId[i];
-                        db.Entry(airplane).State = EntityState.Modified;
+                        db.Airplanes.Update(airplane);
                     }
                 }
                 db.SaveChanges();

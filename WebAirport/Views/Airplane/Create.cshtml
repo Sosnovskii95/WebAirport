@@ -1,4 +1,4 @@
-﻿@model WebAirport.Models.Airplane
+﻿@model WebAirport.Models.CodeFirst.Airplane
 
 @{
     ViewBag.Title = "Новый самолет";
@@ -84,8 +84,10 @@
     </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+
+@section scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }
 
 
