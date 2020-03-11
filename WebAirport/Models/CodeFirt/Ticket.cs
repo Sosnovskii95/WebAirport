@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WebAirport.Models.CodeFirst
 {
@@ -29,7 +25,7 @@ namespace WebAirport.Models.CodeFirst
         public int FlightId { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Стоимость")]
-        public double Price { get; set; }
+        public int Price { get; set; }
 
         public Flight Flight { get; set; }
     }

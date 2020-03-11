@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebAirport.Models.CodeFirst
 {
@@ -17,7 +13,7 @@ namespace WebAirport.Models.CodeFirst
         public string JobTitle { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Оплата")]
-        public double Salary { get; set; }
+        public int Salary { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Обязанности")]
         public string Responsibilities { get; set; }

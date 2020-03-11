@@ -13,7 +13,7 @@
     @Html.ValidationSummary(true)
     <div class="col-md-8">
         <form method="post">
-            <table class="table">
+            <table class="table table-bordered">
                 <tr>
                     <th>Дата и время вылета</th>
                     <td>
@@ -71,9 +71,8 @@
 @section scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-}
-<script type="text/javascript">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
 
     $(function() {
         $('#TypeAirplaneId').change(function () {
@@ -87,4 +86,5 @@
             });
         });
     })
-</script>
+    </script>
+}

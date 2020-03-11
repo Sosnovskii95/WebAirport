@@ -45,7 +45,7 @@
                     <td>@flight.DateTimeFlight</td>
                     <td>@flight.DeparturePoint</td>
                     <td>@flight.Destination</td>
-                    <td>@flight.TimeInFlight</td>
+                    <td>@flight.TimeInFlight.ToString(@"hh\:mm\:ss")</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { flight.Id })</td>
                     <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id })</td>
                 </tr>

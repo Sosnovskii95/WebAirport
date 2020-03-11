@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebAirport.Data;
 using WebAirport.Models.CodeFirst;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using X.PagedList;
 
 namespace WebAirport.Controllers
@@ -14,7 +12,7 @@ namespace WebAirport.Controllers
     public class AirplaneController : Controller
     {
         private AirportContext db;
-        
+
         public AirplaneController(AirportContext context)
         {
             db = context;
@@ -117,7 +115,7 @@ namespace WebAirport.Controllers
                 {
                     if (db.Flights.Where(j => j.JobAirplane.AirplaneId == id).Count() > 0)
                     {
-                        var flightList = db.Flights.Where(j => j.JobAirplane.AirplaneId == id).ToList();
+                        var flightList = db.Flights.Include(j => j.JobAirplane).ThenInclude(s => s.Staff).Where(i => i.JobAirplane.AirplaneId == id).ToList();
                         ViewBag.airplaneList = db.Airplanes.ToList();
                         ViewBag.currentAirplane = airplane;
 
@@ -146,7 +144,7 @@ namespace WebAirport.Controllers
                         var jobAirplane = db.JobAirplanes.Where(a => a.AirplaneId == currentId).FirstOrDefault();
 
                         jobAirplane.AirplaneId = airplaneId[i];
-                        db.Entry(jobAirplane).State = EntityState.Modified;
+                        db.JobAirplanes.Update(jobAirplane);
                     }
                 }
                 db.SaveChanges();

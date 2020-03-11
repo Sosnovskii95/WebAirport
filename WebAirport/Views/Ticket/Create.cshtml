@@ -11,7 +11,7 @@
     @Html.ValidationSummary(true)
     <div class="col-md-8">
         <form method="post">
-            <table class="table">
+            <table class="table table-bordered">
                 <tr>
                     <th>Фамилия Имя Отчество</th>
                     <td>
@@ -64,21 +64,4 @@
 @section scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 }
-
-<script type="text/javascript">
-
-    $(function () {
-        $('#FlightId').change(function () {
-            var id = $(this).val();
-            $.ajax({
-                type: 'GET',
-                url: '@Url.Action("SelectedFlight")/' + id,
-                success: function (data) {
-                    $('#selectFlight').replaceWith(data);
-                }
-            });
-        })
-    })
-</script>

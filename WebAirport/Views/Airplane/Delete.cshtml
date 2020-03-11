@@ -23,6 +23,7 @@
                     <th>Пункт вылета</th>
                     <th>Пункт назначения</th>
                     <th>Время полета</th>
+                    <th>Пилот</th>
                     <th>Замена самолета</th>
                 </tr>
                 @foreach (var flight in Model)
@@ -33,6 +34,7 @@
                         <td>@flight.DeparturePoint</td>
                         <td>@flight.Destination</td>
                         <td>@flight.TimeInFlight</td>
+                        <td>@flight.JobAirplane.Staff.FIOStaff</td>
                         <td>
                             @Html.DropDownList("AirplaneId", new SelectList(ViewBag.airplaneList, "Id", "Model", ViewBag.currentAirplane.Id))
                         </td>

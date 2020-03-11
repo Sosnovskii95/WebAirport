@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebAirport.Data;
 using WebAirport.Models.CodeFirst;
 using X.PagedList;
@@ -45,7 +43,7 @@ namespace WebAirport.Controllers
         [HttpPost]
         public IActionResult Create(Position position)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Positions.Add(position);
                 db.SaveChanges();

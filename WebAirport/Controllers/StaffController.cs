@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using WebAirport.Models.CodeFirst;
-using WebAirport.Data;
-using X.PagedList;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using WebAirport.Data;
+using WebAirport.Models.CodeFirst;
+using X.PagedList;
 
 namespace WebAirport.Controllers
 {
@@ -20,20 +18,20 @@ namespace WebAirport.Controllers
             db = context;
         }
 
-        public IActionResult Index(int? page, string fioStaff, string address)
+        public IActionResult Index(int? page, string fioStaff, string position)
         {
             List<Staff> staffList = null; ;
             int pageSize = 30;
             int pageNumber = (page ?? 1);
 
-            if (fioStaff != null && !fioStaff.Equals("") && address != null && !address.Equals(""))
+            if (fioStaff != null && !fioStaff.Equals("") && position != null && !position.Equals(""))
             {
                 staffList = db.Staffs.Include(p => p.Position).
                                       Where(f => f.FIOStaff.Contains(fioStaff)).
-                                      Where(a => a.Address.Contains(address)).
+                                      Where(a => a.Position.JobTitle.Contains(position)).
                                       ToList();
                 ViewBag.FIOStaff = fioStaff;
-                ViewBag.Address = address;
+                ViewBag.Address = position;
             }
             else if (fioStaff != null && !fioStaff.Equals(""))
             {
@@ -42,12 +40,12 @@ namespace WebAirport.Controllers
                                       ToList();
                 ViewBag.FIOStaff = fioStaff;
             }
-            else if (address != null && !address.Equals(""))
+            else if (position != null && !position.Equals(""))
             {
                 staffList = db.Staffs.Include(p => p.Position).
-                                      Where(a => a.Address.Contains(address)).
+                                      Where(a => a.Position.JobTitle.Contains(position)).
                                       ToList();
-                ViewBag.Address = address;
+                ViewBag.Position = position;
             }
             else
             {
@@ -114,8 +112,7 @@ namespace WebAirport.Controllers
                 {
                     if (db.JobAirplanes.Where(s => s.StaffId == id).Count() > 0)
                     {
-                        var flightsList = db.Flights.Where(j => j.JobAirplane == db.JobAirplanes.
-                                                     Where(s => s.StaffId == id).FirstOrDefault()).ToList();
+                        var flightsList = db.Flights.Include(j => j.JobAirplane).Where(s => s.JobAirplaneId == id).ToList();
                         ViewBag.staffsList = db.Staffs.ToList();
                         ViewBag.currentStaff = staff;
 

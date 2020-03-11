@@ -1,5 +1,3 @@
-using System;
-
 namespace WebAirport.Models
 {
     public class ErrorViewModel

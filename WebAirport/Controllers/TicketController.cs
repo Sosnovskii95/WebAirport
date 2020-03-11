@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebAirport.Data;
 using WebAirport.Models.CodeFirst;
 using X.PagedList;
@@ -64,20 +62,13 @@ namespace WebAirport.Controllers
         [HttpPost]
         public IActionResult Create(Ticket ticket)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 db.Tickets.Add(ticket);
                 db.SaveChanges();
             }
 
             return RedirectToAction("Index");
-        }
-
-        public IActionResult SelectedFlight(int id)
-        {
-            var flight = db.Flights.Find(id);
-
-            return PartialView(flight);
         }
 
         public IActionResult Edit(int? id)

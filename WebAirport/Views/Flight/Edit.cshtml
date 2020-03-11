@@ -13,14 +13,14 @@
     @Html.ValidationSummary(true)
     <div class="col-md-6">
         <form method="post">
-            <table class="table">
+            <table class="table table-bordered">
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.JobAirplaneId)
                 @Html.HiddenFor(model => model.JobAirplane.Id)
                 <tr>
                     <th>Дата и время рейса</th>
                     <td>
-                        @Html.Editor("DateTimeFlight", new { htmlAttributes = new { @type = "datetime-local", Value = Model.DateTimeFlight.ToString("yyyy-MM-dd HH:mm:ss").Replace(' ', 'T') } })
+                        @Html.EditorFor(model => model.DateTimeFlight)
                         @Html.ValidationMessageFor(model => model.DateTimeFlight)
                     </td>
                 </tr>
@@ -74,11 +74,11 @@
 @section scripts {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
 
 
-<script type="text/javascript">
+
+    <script type="text/javascript">
 
     $(function() {
         $('#TypeAirplaneId').change(function () {
@@ -92,5 +92,6 @@
             });
         });
     })
-</script>
+    </script>
 
+}

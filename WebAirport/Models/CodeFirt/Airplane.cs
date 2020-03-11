@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace WebAirport.Models.CodeFirst
 {
@@ -17,8 +15,8 @@ namespace WebAirport.Models.CodeFirst
         public string Model { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Кол-во пассажиров")]
-        public int PessengerCapacity { get; set; } 
-        
+        public int PessengerCapacity { get; set; }
+
         [Required(ErrorMessage = "Требуется поле: Грузоподъемность")]
         public double CarryingCapacity { get; set; }
 
@@ -29,7 +27,7 @@ namespace WebAirport.Models.CodeFirst
         [MaxLength(50)]
         public string Specifications { get; set; }
 
-        [Column(TypeName="date")]
+        [Column(TypeName = "date")]
         [DataType(DataType.Date)]
         [Required(ErrorMessage = "Требуется поле: Дата изготовления")]
         public DateTime? ReleaseDate { get; set; }

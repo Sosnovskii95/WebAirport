@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using WebAirport.Models.CodeFirst;
 
 namespace WebAirport.Data
@@ -26,8 +24,15 @@ namespace WebAirport.Data
         {
             int countSize = 1000;
             modelBuilder.Entity<Position>().HasData(InitDb.GetPositions(countSize));
+            modelBuilder.Entity<Staff>().HasData(InitDb.GetStaffs(countSize));
 
-            //base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TypeAirplane>().HasData(InitDb.GetTypeAirplanes(countSize));
+            modelBuilder.Entity<Airplane>().HasData(InitDb.GetAirplanes(countSize));
+
+            modelBuilder.Entity<JobAirplane>().HasData(InitDb.GetJobAirplanes(countSize));
+
+            modelBuilder.Entity<Flight>().HasData(InitDb.GetFlights(countSize));
+            modelBuilder.Entity<Ticket>().HasData(InitDb.GetTickets(countSize));
         }
     }
 }
@@ -36,13 +41,11 @@ class InitDb
 {
     public static Position[] GetPositions(int countSize)
     {
-        string[] JobTitle = { "Пилот", "Инженер", "Cтеарт", "Охранник" };
-        double Salary = 500.0;
-        string[] Responsibilities = {"Пилотирование самолетов", "Выполнение своих обязанностей",
-                                            "Обслуживание пассажиров", "Охранять вверенное имуществсо"};
-        string[] Requirements = { "Внимательность", "Ответственность", "Аккуратность", "Охрана" };
+        string[] JobTitle = { "Пилот Грузовой", "Пилот Гражданский", "Пилот Смешанный", "Пилот Стажер" };
+        string[] Responsibilities = {"Пилотирование самолетов", "Пилотирование грузовых самолетов",
+                                            "Пилот самолетов", "Пилот стажер"};
+        string[] Requirements = { "Внимательность", "Ответственность", "Аккуратность", "Доброта" };
 
-        List<Position> positionsList = new List<Position>(countSize);
         Random random = new Random();
         Position[] positions = new Position[countSize];
 
@@ -52,7 +55,7 @@ class InitDb
             {
                 Id = i + 1,
                 JobTitle = JobTitle[random.Next(0, 4)],
-                Salary = Salary * random.Next(1, 10),
+                Salary = random.Next(1, 100) * random.Next(1, 100),
                 Responsibilities = Responsibilities[random.Next(0, 4)],
                 Requirements = Requirements[random.Next(0, 4)]
             };
@@ -61,7 +64,7 @@ class InitDb
         return positions;
     }
 
-    private static List<Staff> getStaff(int countSize, List<Position> positions)
+    public static Staff[] GetStaffs(int countSize)
     {
         string[] FIOStaff = { "Воробьев Алексей Викторович", "Лемешенко Алексей Александрович", "Корнеев Дмитрий Юрьевич", "Щиров Игорь Леонидович" };
         string Gender = "Мужской";
@@ -70,47 +73,49 @@ class InitDb
         string[] Passport = { "есть", "нет", "иностранный", "двойное гражданство" };
 
         Random random = new Random();
-        List<Staff> staffsList = new List<Staff>(countSize);
+        Staff[] staffs = new Staff[countSize];
 
         for (int i = 0; i < countSize; i++)
         {
-            staffsList.Add(new Staff
+            staffs[i] = new Staff
             {
+                Id = i + 1,
                 FIOStaff = FIOStaff[random.Next(0, 3)],
                 Gender = Gender,
                 Address = Address[random.Next(0, 3)] + random.Next(1, 100).ToString(),
                 Telephone = Telephone[random.Next(0, 3)],
                 Passport = Passport[random.Next(0, 3)],
-                Position = positions[random.Next(1, positions.Count())]
-            });
+                PositionId = random.Next(1, countSize)
+            };
         }
 
-        return staffsList;
+        return staffs;
     }
 
-    private static List<TypeAirplane> getTypeAirplane(int counSize)
+    public static TypeAirplane[] GetTypeAirplanes(int countSize)
     {
         string[] NameType = { "Грузовой", "Пассажирский", "Грузовой+Пассажирский", "Смешанный" };
         string[] Appointment = { "Перевоз грузов", "Перевоз пассажиров", "Перевоз по назначению", "Может все" };
         string[] Limitation = { "Только грузы", "Только люди", "Грузы+люди", "Грузы, люди, животные, техника" };
 
         Random random = new Random();
-        List<TypeAirplane> typeAirplaneList = new List<TypeAirplane>(counSize);
+        TypeAirplane[] typeAirplanes = new TypeAirplane[countSize];
 
-        for (int i = 0; i < counSize; i++)
+        for (int i = 0; i < countSize; i++)
         {
-            typeAirplaneList.Add(new TypeAirplane
+            typeAirplanes[i] = new TypeAirplane
             {
+                Id = i + 1,
                 NameType = NameType[random.Next(0, 3)],
                 Appointment = Appointment[random.Next(0, 3)],
                 Limitation = Limitation[random.Next(0, 3)]
-            });
+            };
         }
 
-        return typeAirplaneList;
+        return typeAirplanes;
     }
 
-    private static List<Airplane> getAirplane(int countSize, List<TypeAirplane> typeAirplanes)
+    public static Airplane[] GetAirplanes(int countSize)
     {
         string[] Model = { "Ан-112", "Аэробус", "Боинг 747", "B-17" };
         int PassengerCapacity = 10;
@@ -121,12 +126,13 @@ class InitDb
         DateTime LastRepairDate = DateTime.Now.Date;
 
         Random random = new Random();
-        List<Airplane> airplaneList = new List<Airplane>(countSize);
+        Airplane[] airplanes = new Airplane[countSize];
 
         for (int i = 0; i < countSize; i++)
         {
-            airplaneList.Add(new Airplane
+            airplanes[i] = new Airplane
             {
+                Id = i + 1,
                 Model = Model[random.Next(0, 3)],
                 PessengerCapacity = PassengerCapacity + random.Next(0, 100),
                 CarryingCapacity = CarryingCapacity + random.Next(0, 100),
@@ -134,78 +140,78 @@ class InitDb
                 ReleaseDate = ReleaseDate,
                 FlyingHours = FLyingHours + random.Next(0, 2000),
                 LastRepairDate = LastRepairDate,
-                TypeAirplane = typeAirplanes[random.Next(1, typeAirplanes.Count())]
-            });
+                TypeAirplaneId = random.Next(1, countSize)
+            };
         }
 
-        return airplaneList;
+        return airplanes;
     }
 
-    private static List<JobAirplane> getJobAirplane(int countSize, List<Airplane> airplanes, List<Staff> staffs)
+    public static JobAirplane[] GetJobAirplanes(int countSize)
     {
         Random random = new Random();
-        List<JobAirplane> jobAirplaneList = new List<JobAirplane>(countSize);
+        JobAirplane[] jobAirplanes = new JobAirplane[countSize];
 
         for (int i = 0; i < countSize; i++)
         {
-            jobAirplaneList.Add(new JobAirplane
+            jobAirplanes[i] = new JobAirplane
             {
-                Staff = staffs[random.Next(1, staffs.Count())],
-                Airplane = airplanes[random.Next(1, airplanes.Count())]
-            });
+                Id = i + 1,
+                StaffId = random.Next(1, countSize),
+                AirplaneId = random.Next(1, countSize)
+            };
         }
 
-        return jobAirplaneList;
+        return jobAirplanes;
     }
 
-    private static List<Flight> getFlights(int countSize, List<JobAirplane> jobAirplanes)
+    public static Flight[] GetFlights(int countSize)
     {
-        DateTime DateTimeInFlight = DateTime.Now;
         string[] DeparturePoint = { "Минск", "Москва", "Владивосток", "Киев" };
         string[] Destination = { "Москва", "Питер", "Сахалинск", "Брест" };
-        TimeSpan TimeInFlight = DateTime.Now.TimeOfDay;
 
         Random random = new Random();
-        List<Flight> flightList = new List<Flight>(countSize);
+        Flight[] flights = new Flight[countSize];
 
         for (int i = 0; i < countSize; i++)
         {
-            flightList.Add(new Flight
+            flights[i] = new Flight
             {
-                DateTimeFlight = DateTimeInFlight,
+                Id = i + 1,
+                DateTimeFlight = new DateTime(2020, random.Next(3, 5), random.Next(1, 31), random.Next(0, 24), random.Next(0, 60), 0),
                 DeparturePoint = DeparturePoint[random.Next(0, 3)],
                 Destination = Destination[random.Next(0, 3)],
-                TimeInFlight = TimeInFlight,
-                JobAirplane = jobAirplanes[random.Next(1, jobAirplanes.Count())]
-            });
-        }
+                TimeInFlight = new TimeSpan(random.Next(0, 24), random.Next(0, 60), 0),
+                JobAirplaneId = random.Next(1, countSize)
+            };
+        };
 
-        return flightList;
+        return flights;
     }
 
-    private static List<Ticket> getTicket(int countSize, List<Flight> flights)
+    public static Ticket[] GetTickets(int countSize)
     {
         string[] FIOPassenger = { "Бобров Игорь Валерьевич", "Велецкий Станислав Михайлович", "Миньков Валентин Виктровович", "Иванаускас Ксения Андреевна" };
         string[] Passport = { "есть", "нет", "иностранный", "двойное гражданство" };
         string[] PositionPassenger = { "Охранник", "Менеджер", "Сварщик", "Программист" };
-        double Price = 100;
 
         Random random = new Random();
-        List<Ticket> ticketList = new List<Ticket>(countSize);
+        Ticket[] tickets = new Ticket[countSize];
 
         for (int i = 0; i < countSize; i++)
         {
-            ticketList.Add(new Ticket
+            tickets[i] = new Ticket
             {
+                Id = i + 1,
                 FIOPassenger = FIOPassenger[random.Next(0, 3)],
                 Passport = Passport[random.Next(0, 3)],
                 PositionPassenger = PositionPassenger[random.Next(0, 3)],
                 Seat = random.Next(1, 100),
-                Price = Price + random.Next(0, 1000) + random.NextDouble(),
-                Flight = flights[random.Next(1, flights.Count())]
-            });
+                Price = random.Next(0, 100) * random.Next(0, 100),
+                FlightId = random.Next(1, countSize)
+            };
         }
 
-        return ticketList;
+        return tickets;
     }
 }
