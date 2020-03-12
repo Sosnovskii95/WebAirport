@@ -15,9 +15,11 @@ namespace WebAirport.Models.CodeFirst
         public string Model { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Кол-во пассажиров")]
+        [Range(0, int.MaxValue, ErrorMessage ="Количество не может быть отрицательным")]
         public int PessengerCapacity { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Грузоподъемность")]
+        [Range(0, double.MaxValue, ErrorMessage = "Неккоректный ввод")]
         public double CarryingCapacity { get; set; }
 
         [Required(ErrorMessage = "Поле должно быть заполнено")]
@@ -33,6 +35,7 @@ namespace WebAirport.Models.CodeFirst
         public DateTime? ReleaseDate { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Часов налета")]
+        [Range(0, int.MaxValue, ErrorMessage ="Количество не может быть отрицательным")]
         public int FlyingHours { get; set; }
 
         [Column(TypeName = "date")]

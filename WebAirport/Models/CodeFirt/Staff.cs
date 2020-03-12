@@ -21,7 +21,8 @@ namespace WebAirport.Models.CodeFirst
         public string Address { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Номер телефона")]
-        [MaxLength(50)]
+        [MaxLength(12)]
+        [Range(375250000000, 375449999999, ErrorMessage = "Неккоректный номер")]
         public string Telephone { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Пасспорт")]

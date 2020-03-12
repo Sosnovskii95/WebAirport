@@ -15,6 +15,7 @@
 <div class="row">
     <div class="col-md-6">
         @Html.ActionLink("Добавить должность", "Create")
+        @Html.ActionLink("Список должностей", "Index")
     </div>
     <div class="col-md-6">
         <form>
@@ -43,13 +44,13 @@
                     <td>@p.Responsibilities</td>
                     <td>@p.Requirements</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { p.Id })</td>
-                    <td>@Html.ActionLink("Удалить", "Delete", new { p.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { p.Id }, new { onclick = "return confirm('Удалить?')" })</td>
                 </tr>
             }
         </table>
     </div>
 </div>
 <br />
-Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
+    Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.JobTitle }))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, ViewBag.JobTitle }))

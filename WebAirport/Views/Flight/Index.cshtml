@@ -15,6 +15,7 @@
 <div class="row">
     <div class="col-md-6">
         @Html.ActionLink("Добавить новый рейс", "Create")
+        @Html.ActionLink("Список рейсов", "Index")
     </div>
     <div class="col-md-6">
         <form>
@@ -47,7 +48,7 @@
                     <td>@flight.Destination</td>
                     <td>@flight.TimeInFlight.ToString(@"hh\:mm\:ss")</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { flight.Id })</td>
-                    <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { flight.Id }, new { onclick = "return confirm('Удалить?')" })</td>
                 </tr>
             }
         </table>

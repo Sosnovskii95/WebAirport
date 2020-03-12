@@ -25,7 +25,7 @@ namespace WebAirport.Controllers
 
             if (fioPassenger != null && !fioPassenger.Equals("") && passport != null && !passport.Equals(""))
             {
-                ticketList = db.Tickets.Where(f => fioPassenger.Contains(fioPassenger)).
+                ticketList = db.Tickets.Where(f => f.FIOPassenger.Contains(fioPassenger)).
                                         Where(p => p.Passport.Contains(passport)).ToList();
                 ViewBag.FIOPassenger = fioPassenger;
                 ViewBag.Passport = passport;

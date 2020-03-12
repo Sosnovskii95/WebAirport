@@ -13,6 +13,7 @@ namespace WebAirport.Models.CodeFirst
         public string JobTitle { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Оплата")]
+        [Range(0, int.MaxValue, ErrorMessage ="Оклад не может быть отрицательным")]
         public int Salary { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Обязанности")]

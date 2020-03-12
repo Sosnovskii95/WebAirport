@@ -15,7 +15,7 @@
         <form method="post">
             <table class="table table-bordered">
                 <tr>
-                    <th>Дата и время вылета</th>
+                    <th>Дата и время рейса</th>
                     <td>
                         @Html.Editor("DateTimeFlight", new { htmlAttributes = new { @type = "datetime-local" } })
                         @Html.ValidationMessageFor(model => model.DateTimeFlight)

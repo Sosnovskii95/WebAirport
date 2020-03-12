@@ -15,6 +15,7 @@
 <div class="row">
     <div class="col-md-6">
         @Html.ActionLink("Добавить тип самолета", "Create")
+        @Html.ActionLink("Список типов", "Index")
     </div>
     <div class="col-md-6">
         <form>
@@ -41,7 +42,7 @@
                     <td>@typeA.Appointment</td>
                     <td>@typeA.Limitation</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { typeA.Id })</td>
-                    <td>@Html.ActionLink("Удалить", "Delete", new { typeA.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { typeA.Id }, new { onclick = "return confirm('Удалить?')" })</td>
                 </tr>
             }
         </table>

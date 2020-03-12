@@ -14,6 +14,7 @@
 <div class="row">
     <div class="col-md-6">
         @Html.ActionLink("Добавить новый самолет", "Create")
+        @Html.ActionLink("Список самолетов", "Index")
     </div>
     <div class="col-md-6">
         <form>
@@ -50,7 +51,7 @@
                     <td>@String.Format("{0:dd.MM.yyyy}", air.LastRepairDate)</td>
                     <td>@air.TypeAirplane.NameType</td>
                     <td>@Html.ActionLink("Редактировать", "Edit", new { air.Id })</td>
-                    <td>@Html.ActionLink("Удалить", "Delete", new { air.Id })</td>
+                    <td>@Html.ActionLink("Удалить", "Delete", new { air.Id }, new { onclick = "return confirm('Удалить?')" })</td>
                 </tr>
             }
         </table>
