@@ -27,19 +27,19 @@ namespace WebAirport.Controllers
 
             if (departurePoint != null && destination != null && !departurePoint.Equals("") && !destination.Equals(""))
             {
-                flightList = db.Flights.Where(d => d.DeparturePoint == departurePoint).
-                                        Where(p => p.Destination == destination).ToList();
+                flightList = db.Flights.Where(d => d.DeparturePoint.Contains(departurePoint)).
+                                        Where(p => p.Destination.Contains(destination)).ToList();
                 ViewBag.destination = destination;
                 ViewBag.departurePoint = departurePoint;
             }
             else if (departurePoint != null && !departurePoint.Equals(""))
             {
-                flightList = db.Flights.Where(d => d.DeparturePoint == departurePoint).ToList();
+                flightList = db.Flights.Where(d => d.DeparturePoint.Contains(departurePoint)).ToList();
                 ViewBag.departurePoint = departurePoint;
             }
             else if (destination != null && !destination.Equals(""))
             {
-                flightList = db.Flights.Where(d => d.Destination == destination).ToList();
+                flightList = db.Flights.Where(d => d.Destination.Contains(destination)).ToList();
                 ViewBag.destination = destination;
             }
             else
