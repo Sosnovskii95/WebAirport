@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using WebAirport.Models.CodeFirst;
 
 namespace WebAirport.Data

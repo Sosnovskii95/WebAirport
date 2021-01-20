@@ -20,13 +20,13 @@ namespace WebAirport.Models.CodeFirst
         public string PositionPassenger { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Место в самолете")]
-        [Range(0, int.MaxValue, ErrorMessage ="Место в багажном отсеке?)")]
+        [Range(0, int.MaxValue, ErrorMessage = "Место в багажном отсеке?)")]
         public int Seat { get; set; }
 
         public int FlightId { get; set; }
 
         [Required(ErrorMessage = "Требуется поле: Стоимость")]
-        [Range(0, int.MaxValue, ErrorMessage ="Стоимость не может быть отрицательной")]
+        [Range(0, int.MaxValue, ErrorMessage = "Стоимость не может быть отрицательной")]
         public int Price { get; set; }
 
         public Flight Flight { get; set; }

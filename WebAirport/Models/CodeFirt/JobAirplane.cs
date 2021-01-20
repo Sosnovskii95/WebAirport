@@ -8,7 +8,7 @@ namespace WebAirport.Models.CodeFirst
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Требуется поле: Самолет")]
+        [Required(ErrorMessage = "Требуется поле: Самолет")]
         public int AirplaneId { get; set; }
 
         [Required]
